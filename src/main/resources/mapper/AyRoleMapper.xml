@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ay.dao.AyRoleDao">
+<mapper namespace="nwsuaf.dao.AyRoleDao">
 
-    <resultMap id="roleMap" type="com.ay.model.AyRole">
+    <resultMap id="roleMap" type="nwsuaf.model.AyRole">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
 
         <collection property="ayUserList" javaType="ArrayList" column="id"
-                    ofType="com.ay.model.AyUser"
+                    ofType="nwsuaf.model.AyUser"
                     fetchType="lazy"
-                    select="com.ay.dao.AyUserDao.findByRoleId">
+                    select="nwsuaf.dao.AyUserDao.findByRoleId">
             <!--<id property="id" column="id"/>
             <result property="name" column="name"/>
             <result property="password" column="password"/>-->
@@ -22,7 +22,7 @@
         SELECT * FROM ay_role WHERE id = #{id}
     </select>
 
-    <select id="findByUserId" parameterType="Integer" resultType="com.ay.model.AyRole">
+    <select id="findByUserId" parameterType="Integer" resultType="nwsuaf.model.AyRole">
         SELECT * FROM ay_role WHERE id in(
           select role_id from ay_user_role_rel where user_id = #{userId}
         )

@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ay.dao.MoodDao">
-    <cache-ref namespace="com.ay.dao.UserDao"/>
+<mapper namespace="nwsuaf.dao.MoodDao">
+    <cache-ref namespace="nwsuaf.dao.UserDao"/>
     
-    <resultMap id="moodMap" type="com.ay.model.Mood">
+    <resultMap id="moodMap" type="nwsuaf.model.Mood">
         <id property="id" column="id"/>
         <result property="content" column="content"/>
         <result property="userId" column="user_id"/>

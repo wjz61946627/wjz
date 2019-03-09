@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ay.dao.AyUserDao">
+<mapper namespace="nwsuaf.dao.AyUserDao">
 <!-- 开启AyUserMapper的namespace下的二级缓存 -->
 <cache/>
-    <resultMap id="userMap" type="com.ay.model.AyUser">
+    <resultMap id="userMap" type="nwsuaf.model.AyUser">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="password" column="password"/>
         <!--<association property="ayUserAddress" column="address_id"-->
-                     <!--select="com.ay.dao.AyUserAddressDao.findById" javaType="com.ay.model.AyUserAddress">-->
+                     <!--select="nwsuaf.dao.AyUserAddressDao.findById" javaType="nwsuaf.model.AyUserAddress">-->
         <!--</association>-->
 
         <!--<collection property="ayRoleList" javaType="ArrayList" column="id"-->
-                    <!--ofType="com.ay.model.AyRole"-->
+                    <!--ofType="nwsuaf.model.AyRole"-->
                     <!--fetchType="lazy"-->
-                    <!--select="com.ay.dao.AyRoleDao.findByUserId">-->
+                    <!--select="nwsuaf.dao.AyRoleDao.findByUserId">-->
             <!--<id property="id" column="id"/>-->
             <!--<result property="name" column="name"/>-->
         <!--</collection>-->
@@ -27,7 +27,7 @@
       WHERE id = #{id}
     </select>
 
-    <select id="findByRoleId" parameterType="Integer" resultType="com.ay.model.AyUser">
+    <select id="findByRoleId" parameterType="Integer" resultType="nwsuaf.model.AyUser">
         SELECT * FROM ay_user WHERE id in(
           select user_id from ay_user_role_rel where role_id = #{roleId}
         )
@@ -45,13 +45,13 @@
       from ay_user a
     </select>
 
-    <!--<resultMap id="userMap" type="com.ay.model.AyUser">-->
+    <!--<resultMap id="userMap" type="nwsuaf.model.AyUser">-->
         <!--<id property="id" column="id"/>-->
         <!--<result property="name" column="name"/>-->
         <!--<result property="password" column="password"/>-->
     <!--</resultMap>-->
 
-    <!--<select id="findAll" resultType="com.ay.model.AyUser">-->
+    <!--<select id="findAll" resultType="nwsuaf.model.AyUser">-->
         <!--select-->
         <!--<include refid="userField">-->
             <!--<property name="prefix" value="a"/>-->
@@ -80,7 +80,7 @@
     <!--</sql>-->
 
     <!-- 获取所有用户 -->
-    <!--<select id="findAll" resultType="com.ay.model.AyUser">-->
+    <!--<select id="findAll" resultType="nwsuaf.model.AyUser">-->
         <!--select-->
         <!--<include refid="userField">-->
             <!--<property name="prefix" value="a"/>-->
@@ -88,25 +88,25 @@
         <!--from ay_user a-->
     <!--</select>-->
 
-    <!--<select id="findById"  parameterType="String" resultType="com.ay.model.AyUser">-->
+    <!--<select id="findById"  parameterType="String" resultType="nwsuaf.model.AyUser">-->
         <!--SELECT <include refid="userField"></include>-->
         <!--FROM ay_user a-->
         <!--WHERE id = #{id}-->
     <!--</select>-->
 
-    <!--<select id="findByName"  parameterType="String" resultType="com.ay.model.AyUser">-->
+    <!--<select id="findByName"  parameterType="String" resultType="nwsuaf.model.AyUser">-->
         <!--SELECT * FROM ay_user-->
         <!--WHERE name = #{name}-->
     <!--</select>-->
 
-    <!--<select id="findByName"  parameterType="String" resultType="com.ay.model.AyUser">-->
+    <!--<select id="findByName"  parameterType="String" resultType="nwsuaf.model.AyUser">-->
         <!--SELECT * FROM ay_user WHERE 1 = 1-->
         <!--<if test="name != null and name != ''">-->
             <!--and name = #{name}-->
         <!--</if>-->
     <!--</select>-->
 
-    <!--<select id="findByName"  parameterType="String" resultType="com.ay.model.AyUser">-->
+    <!--<select id="findByName"  parameterType="String" resultType="nwsuaf.model.AyUser">-->
         <!--SELECT * FROM ay_user-->
         <!--<where>-->
             <!--<if test="name != null and name != ''">-->
@@ -120,29 +120,29 @@
         <!--WHERE name = #{name}-->
     <!--</select>-->
 
-    <!--<insert id="insert" parameterType="com.ay.model.AyUser">-->
+    <!--<insert id="insert" parameterType="nwsuaf.model.AyUser">-->
         <!--INSERT INTO ay_user(id, name, password) VALUE (#{id}, #{name}, #{password});-->
     <!--</insert>-->
 
-    <!--<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ay.model.AyUser">-->
+    <!--<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="nwsuaf.model.AyUser">-->
         <!--INSERT INTO ay_user(name, password) VALUE (#{name}, #{password});-->
      <!--</insert>-->
 
-    <!--<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ay.model.AyUser">-->
+    <!--<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="nwsuaf.model.AyUser">-->
         <!--<selectKey keyProperty="id" resultType="int" order="BEFORE">-->
             <!--SELECT MAX(id) + 1 AS id FROM ay_user-->
         <!--</selectKey>-->
         <!--INSERT INTO ay_user(id, name, password) VALUE (#{id}, #{name}, #{password});-->
     <!--</insert>-->
 
-    <!--<update id="update" parameterType="com.ay.model.AyUser">-->
+    <!--<update id="update" parameterType="nwsuaf.model.AyUser">-->
         <!--UPDATE ay_user SET-->
         <!--name = #{name},-->
         <!--password = #{password}-->
         <!--WHERE id = #{id}-->
     <!--</update>-->
 
-    <!--<update id="update" parameterType="com.ay.model.AyUser">-->
+    <!--<update id="update" parameterType="nwsuaf.model.AyUser">-->
         <!--UPDATE ay_user-->
         <!--<set>-->
             <!--<if test="name != null and name != ''">-->
@@ -155,7 +155,7 @@
         <!--WHERE id = #{id}-->
     <!--</update>-->
 
-    <!--<update id="update" parameterType="com.ay.model.AyUser">-->
+    <!--<update id="update" parameterType="nwsuaf.model.AyUser">-->
         <!--UPDATE ay_user-->
         <!--<trim prefix="SET" suffixOverrides=",">-->
             <!--<if test="name != null and name != ''">-->
@@ -197,7 +197,7 @@
         <!--WHERE 1 = 1 AND name = #{param1} AND password = #{param2}-->
     <!--</select>-->
 
-    <!--<select id="findByNameAndPassword" parameterType="String" resultType="com.ay.model.AyUser">-->
+    <!--<select id="findByNameAndPassword" parameterType="String" resultType="nwsuaf.model.AyUser">-->
         <!--<bind name="name_pattern" value="'%' + name + '%'"/>-->
         <!--<bind name="password_pattern" value="'%' + password + '%'"/>-->
         <!--SELECT * FROM ay_user-->
@@ -240,7 +240,7 @@
         <!--</trim>-->
     <!--</select>-->
 
-    <!--<select id="findByIds" resultType="com.ay.model.AyUser">-->
+    <!--<select id="findByIds" resultType="nwsuaf.model.AyUser">-->
         <!--SELECT * FROM ay_user-->
         <!--WHERE id in-->
         <!--<foreach item="item" index="index" collection="list"-->

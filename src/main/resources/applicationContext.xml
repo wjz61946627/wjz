@@ -15,7 +15,7 @@
     <import resource="spring-redis.xml"/>
     <import resource="spring-jms.xml"/>
 
-    <context:component-scan base-package="com.ay"/>
+    <context:component-scan base-package="nwsuaf"/>
 
     <!--1、配置数据库相关参数-->
     <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
@@ -60,7 +60,7 @@
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-        <property name="basePackage" value="com.ay.dao"/>
+        <property name="basePackage" value="nwsuaf.dao"/>
 
     </bean>
 
