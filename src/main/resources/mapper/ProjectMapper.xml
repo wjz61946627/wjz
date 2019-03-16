@@ -4,35 +4,35 @@
 <mapper namespace="nwsuaf.dao.ProjectDao">
 
     <resultMap id="projectMap" type="nwsuaf.model.Project">
-        <id property="proId" column="proid"/>
-        <result property="proName" column="proname"/>
+        <id property="proId" column="proId"/>
+        <result property="proName" column="proName"/>
         <result property="date" column="date"/>
     </resultMap>
 
     <insert id="projectInsert" parameterType="nwsuaf.model.Project">
-        INSERT INTO project (proname,date) VALUES (#{proName}, #{date});
-        <selectKey keyColumn="proid" resultType="int" keyProperty="proId" order="AFTER">
+        INSERT INTO project (proName,date) VALUES (#{proName}, #{date});
+        <selectKey keyColumn="proId" resultType="int" keyProperty="proId" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
 
     <delete id="projectDelete" parameterType="int">
-        DELETE FROM project WHERE proid = #{proId};
+        DELETE FROM project WHERE proId = #{proId};
     </delete>
 
     <update id="projectUpdate" parameterType="nwsuaf.model.Project">
         UPDATE project
-        SET proname = #{proName},
+        SET proName = #{proName},
             date = #{date}
-        WHERE proid = #{proId}
+        WHERE proId = #{proId}
     </update>
 
     <select id="projectFindByProId" parameterType="int" resultType="nwsuaf.model.Project">
-        SELECT * FROM project WHERE proid=#{proId}
+        SELECT * FROM project WHERE proId=#{proId}
     </select>
 
     <select id="projectFindByProName" parameterType="int" resultType="nwsuaf.model.Project">
-        SELECT * FROM project WHERE proname=#{proName}
+        SELECT * FROM project WHERE proName=#{proName}
     </select>
 
 </mapper>

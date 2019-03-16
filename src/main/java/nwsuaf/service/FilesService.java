@@ -2,6 +2,8 @@ package nwsuaf.service;
 
 import nwsuaf.model.Files;
 
+import java.util.List;
+
 /**
  * @author wjz
  * @date 2019/3/16
@@ -18,4 +20,6 @@ public interface FilesService {
     public Files filesFindByFileId(int fileId);
 
     public Files filesFindByFileName(String fileName);
+
+    public List<Files> filesFindByUploader(String uploader);
 }

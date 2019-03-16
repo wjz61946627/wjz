@@ -5,31 +5,31 @@
 
     <resultMap id="teamMap" type="nwsuaf.model.Team">
         <id property="key" column="key"/>
-        <result property="teamId" column="teamid"/>
+        <result property="teamId" column="teamId"/>
         <result property="id" column="id"/>
-        <result property="proId" column="proid"/>
+        <result property="proId" column="proId"/>
     </resultMap>
 
     <insert id="teamInsert" parameterType="nwsuaf.model.Team">
-        INSERT INTO team (teamid,id,proid) VALUES (#{teamId}, #{id}, #{proId});
+        INSERT INTO team (teamId,id,proId) VALUES (#{teamId}, #{id}, #{proId});
         <selectKey keyColumn="key" resultType="int" keyProperty="key" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
 
     <delete id="teamDelete" parameterType="int">
-        DELETE FROM team WHERE teamid = #{teamId};
+        DELETE FROM team WHERE teamId = #{teamId};
     </delete>
 
     <update id="teamUpdate" parameterType="nwsuaf.model.Team">
         UPDATE team
         SET id = #{id},
-            proid = #{proId}
-        WHERE teamid = #{teamId}
+            proId = #{proId}
+        WHERE teamId = #{teamId}
     </update>
 
     <select id="teamFindByTeamId" parameterType="int" resultType="nwsuaf.model.Team">
-        SELECT * FROM team WHERE teamid=#{teamId}
+        SELECT * FROM team WHERE teamId=#{teamId}
     </select>
 
     <select id="teamFindById" parameterType="int" resultType="nwsuaf.model.Team">
@@ -37,6 +37,6 @@
     </select>
 
     <select id="teamFindByProId" parameterType="int" resultType="nwsuaf.model.Team">
-        SELECT * FROM team WHERE proid=#{proId}
+        SELECT * FROM team WHERE proId=#{proId}
     </select>
 </mapper>

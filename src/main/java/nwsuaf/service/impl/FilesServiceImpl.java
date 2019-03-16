@@ -5,6 +5,7 @@ import nwsuaf.service.FilesService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author wjz
@@ -35,5 +36,9 @@ public class FilesServiceImpl implements FilesService {
 
     public Files filesFindByFileName(String fileName){
         return filesService.filesFindByFileName(fileName);
+    }
+
+    public List<Files> filesFindByUploader(String uploader){
+        return filesService.filesFindByUploader(uploader);
     }
 }

@@ -1,5 +1,6 @@
 package nwsuaf.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,15 +8,17 @@ import java.util.Date;
  * @date 2019/3/16
  * @describe
  */
-public class Files {
+public class Files implements Serializable {
 
     private Integer fileId;
 
     private String fileName;
 
-    private Date upload;
+    private Date uploadTime;
 
-    private Integer proId;
+    private String uploader;
+
+    private String remark;
 
     public Integer getFileId() {
         return fileId;
@@ -33,19 +36,27 @@ public class Files {
         this.fileName = fileName;
     }
 
-    public Date getUpload() {
-        return upload;
+    public Date getUploadtime() {
+        return uploadTime;
     }
 
-    public void setUpload(Date upload) {
-        this.upload = upload;
+    public void setUploadtime(Date uploadtime) {
+        this.uploadTime = uploadtime;
     }
 
-    public Integer getProId() {
-        return proId;
+    public String getUploader() {
+        return uploader;
     }
 
-    public void setProId(Integer proId) {
-        this.proId = proId;
+    public void setUploader(String uploader) {
+        this.uploader = uploader;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
