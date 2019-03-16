@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nwsuaf.dao.FilesDao">
+
+    <resultMap id="filesMap" type="nwsuaf.model.Files">
+        <id property="fileId" column="fileid"/>
+        <result property="teamId" column="teamid"/>
+        <result property="id" column="id"/>
+        <result property="proId" column="proid"/>
+    </resultMap>
+
+    <insert id="teamInsert" parameterType="nwsuaf.model.Team">
+        INSERT INTO team (teamid,id,proid) VALUES (#{teamId}, #{id}, #{proId});
+        <selectKey keyColumn="key" resultType="int" keyProperty="key" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <delete id="teamDelete" parameterType="int">
+        DELETE FROM team WHERE teamid = #{teamId};
+    </delete>
+
+    <update id="teamUpdate" parameterType="nwsuaf.model.Team">
+        UPDATE team
+        SET id = #{id},
+            proid = #{proId}
+        WHERE teamid = #{teamId}
+    </update>
+
+    <select id="teamFindByTeamId" parameterType="int" resultType="nwsuaf.model.Team">
+        SELECT * FROM team WHERE teamid=#{teamId}
+    </select>
+
+    <select id="teamFindById" parameterType="int" resultType="nwsuaf.model.Team">
+        SELECT * FROM team WHERE id=#{id}
+    </select>
+
+    <select id="teamFindByProId" parameterType="int" resultType="nwsuaf.model.Team">
+        SELECT * FROM team WHERE proid=#{proId}
+    </select>
+</mapper>

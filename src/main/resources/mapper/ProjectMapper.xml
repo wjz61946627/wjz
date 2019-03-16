@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nwsuaf.dao.ProjectDao">
+
+    <resultMap id="projectMap" type="nwsuaf.model.Project">
+        <id property="proId" column="proid"/>
+        <result property="proName" column="proname"/>
+        <result property="date" column="date"/>
+    </resultMap>
+
+    <insert id="projectInsert" parameterType="nwsuaf.model.Project">
+        INSERT INTO project (proname,date) VALUES (#{proName}, #{date});
+        <selectKey keyColumn="proid" resultType="int" keyProperty="proId" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <delete id="projectDelete" parameterType="int">
+        DELETE FROM project WHERE proid = #{proId};
+    </delete>
+
+    <update id="projectUpdate" parameterType="nwsuaf.model.Project">
+        UPDATE project
+        SET proname = #{proName},
+            date = #{date}
+        WHERE proid = #{proId}
+    </update>
+
+    <select id="projectFindByProId" parameterType="int" resultType="nwsuaf.model.Project">
+        SELECT * FROM project WHERE proid=#{proId}
+    </select>
+
+    <select id="projectFindByProName" parameterType="int" resultType="nwsuaf.model.Project">
+        SELECT * FROM project WHERE proname=#{proName}
+    </select>
+
+</mapper>
