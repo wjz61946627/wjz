@@ -4,7 +4,9 @@ package nwsuaf.util;
 import java.io.FileInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 
 /**
@@ -31,6 +33,8 @@ public class UtilConfig {
      */
     public static String FILE_SAVE_PATH;
 
+    /** ip 黑名单 */
+    public static Set<String> IP_BLACK_SET = new HashSet<String>();
 
 
     static {
