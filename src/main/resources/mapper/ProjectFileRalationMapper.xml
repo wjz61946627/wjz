@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="nwsuaf.dao.ProjectDao">
+<mapper namespace="nwsuaf.dao.ProjectFileRalationDao">
 
-    <resultMap id="projectMap" type="nwsuaf.model.Project">
-        <id property="proId" column="proId"/>
-        <result property="proName" column="proName"/>
-        <result property="date" column="date"/>
+    <resultMap id="ProjectFileRalationMap" type="nwsuaf.model.ProjectFileRalation">
+        <id property="key" column="key"/>
+        <result property="proId" column="proId"/>
+        <result property="fileId" column="fileId"/>
     </resultMap>
 
-    <insert id="projectInsert" parameterType="nwsuaf.model.Project">
-        INSERT INTO project (proName,date) VALUES (#{proName}, #{date});
-        <selectKey keyColumn="proId" resultType="int" keyProperty="proId" order="AFTER">
+    <insert id="ProjectFileRalationInsert" parameterType="nwsuaf.model.ProjectFileRalation">
+        INSERT INTO p_f_ralation (proId,fileId) VALUES (#{proId}, #{fileId});
+        <selectKey keyColumn="key" resultType="int" keyProperty="key" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
 
-    <delete id="projectDelete" parameterType="int">
-        DELETE FROM project WHERE proId = #{proId};
+    <delete id="ProjectFileRalationDelete" parameterType="int">
+        DELETE FROM p_f_ralation WHERE proId = #{proId} AND fileId = #{fileId};
     </delete>
 
-    <update id="projectUpdate" parameterType="nwsuaf.model.Project">
-        UPDATE project
-        SET proName = #{proName},
-            date = #{date}
-        WHERE proId = #{proId}
+    <update id="ProjectFileRalationUpdate" parameterType="nwsuaf.model.ProjectFileRalation">
+        UPDATE p_f_ralation
+        SET proId = #{proId},
+            fileId = #{fileId}
+        WHERE key = #{key}
     </update>
 
-    <select id="projectFindByProId" parameterType="int" resultType="nwsuaf.model.Project">
-        SELECT * FROM project WHERE proId=#{proId}
+    <select id="ProjectFileRalationFindByProId" parameterType="int" resultType="nwsuaf.model.ProjectFileRalation">
+        SELECT * FROM p_f_ralation WHERE proId=#{proId}
     </select>
 
-    <select id="projectFindByProName" parameterType="int" resultType="nwsuaf.model.Project">
-        SELECT * FROM project WHERE proName=#{proName}
+    <select id="ProjectFileRalationFindByFileId" parameterType="int" resultType="nwsuaf.model.ProjectFileRalation">
+        SELECT * FROM p_f_ralation WHERE fileId=#{fileId}
     </select>
 
 </mapper>
