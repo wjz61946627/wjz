@@ -1,5 +1,8 @@
 package nwsuaf.util;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Set;
 
 /**
@@ -9,7 +12,9 @@ import java.util.Set;
  */
 public class Utils {
 
-    /** 支持 127.0.0.1 and 127.0.0.1/12 */
+    /**
+     * 支持 127.0.0.1 and 127.0.0.1/12
+     */
     private static final String IP_PATTER = "";
 
     public static boolean isIp(String ip) {
@@ -36,4 +41,12 @@ public class Utils {
         return false;
     }
 
+    /**
+     * md5
+     */
+    public static String md5(String str) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(str.getBytes());
+        return new BigInteger(1, md.digest()).toString();
+    }
 }
