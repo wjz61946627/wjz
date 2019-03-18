@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap3.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/my.css"/>
+
+
+    <script src="https://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="./js/bootstrap-treeview.js" type="application/javascript"></script>
+
+</head>
+<body>
+<div class="content">
+    <div class="left">
+        <div>
+            <button type="button" class="btn btn-right icon expand-icon glyphicon glyphicon-refresh"
+                    id="btn-collapse-all"></button>
+        </div>
+        <div id="tree" class="treeview"></div>
+    </div>
+    <div class="right">
+        <table class="table table-striped">
+            <tbody>
+               
+            <tr>
+                  
+                <td class="file-select">checkbox</td>
+                   
+                <td class="file-name-show">文件名1</td>
+                     
+                <td class="file-tool">
+                    <span class="icon expand-icon glyphicon  glyphicon-eye-open" data-toggle="tooltip"
+                          data-placement="top" title="阅读"></span>
+                    <span class="icon expand-icon glyphicon  glyphicon-save" data-toggle="tooltip" data-placement="top"
+                          title="下载"></span>
+                </td>
+                     
+                <td class="file-tool">
+                    <div class="dropdown ">
+                        <button class="btn btn-default dropdown-toggle " type="button"
+                                id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#"><span class="glyphicon glyphicon-retweet"> 重命名</span></a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-log-out"> 移动到</span></a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-trash"> 删除</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td class="file-size">3.7M</td>
+                <td class="file-time">
+                    2019-16-06 12:00:51
+                </td>
+                   
+            </tr>
+               
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="application/javascript">
+    let defaultData = [
+        {
+            text: 'Parent 1',
+            href: '#parent1',
+            selectable: 'true',
+            nodes: [
+                {
+                    text: 'Child 1',
+                    href: '#child1',
+                    nodes: [
+                        {
+                            text: 'Grandchild 1',
+                            href: '#grandchild1',
+                            icon: 'glyphicon glyphicon-file',
+                        },
+                        {
+                            text: 'Grandchild 2',
+                            href: '#grandchild2',
+                            icon: 'glyphicon glyphicon-file',
+                        }
+                    ]
+                },
+                {
+                    text: 'Child 2',
+                    href: '#child2',
+                }
+            ]
+        },
+        {
+            text: 'Parent 2',
+            href: '#parent2',
+        },
+        {
+            text: 'Parent 3',
+            href: '#parent3',
+        },
+        {
+            text: 'Parent 4',
+            href: '#parent4',
+        },
+        {
+            text: 'Parent 5',
+            href: '#parent5',
+        }
+    ];
+
+    $('#tree').treeview({
+        color: "rgba(78, 78, 85, 0.91)",
+        selectedBackColor: "rgba(80, 80, 87, 0.74)",
+        showBorder: false,
+        showCheckbox: true,
+        // nodeIcon: "glyphicon glyphicon-folder-close",
+        collapseIcon: "glyphicon glyphicon-folder-open",
+        expandIcon: "glyphicon glyphicon-folder-close",
+        data: defaultData,
+        onNodeSelected: function (event, node) {
+            let str = '<p>' + node.text + ' was selected</p>';
+            console.log(str);
+        },
+        onNodeChecked: function (event, node) {
+            let str = '<p>' + node.text + ' was checked</p>'
+            console.log(str);
+        },
+        onNodeUnchecked: function (event, node) {
+            let str = '<p>' + node.text + ' was unchecked</p>';
+            console.log(str);
+        },
+        collapseAll: {silent: $('#btn-collapse-all').is(':checked')},
+    });
+
+</script>
+</body>
+</html>
