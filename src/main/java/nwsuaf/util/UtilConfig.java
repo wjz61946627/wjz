@@ -2,6 +2,7 @@ package nwsuaf.util;
 
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
@@ -20,7 +21,9 @@ public class UtilConfig {
         throw new IllegalStateException("utils class");
     }
 
-    /** 本项目默认编码 */
+    /**
+     * 本项目默认编码
+     */
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8.defaultCharset();
 
     /**
@@ -33,23 +36,42 @@ public class UtilConfig {
      */
     public static String FILE_SAVE_PATH;
 
-    /** ip 黑名单 */
+    /**
+     * ip 黑名单
+     */
     public static Set<String> IP_BLACK_SET = new HashSet<String>();
 
+    /**
+     * 生成token用的key
+     */
+    public static final String SECURITY;
+
+    /**
+     * token有效期
+     */
+    public static final int VALIDITY;
+
+    public static final int PASSWORD_LEFT = 6;
+    public static final int PASSWORD_RIGHT = 20;
+    public static final String PASSWORD_FORMAT = "[a-zA-Z0-9]+";
+
+    public static final int EMAIL_RIGHT = 30;
+    public static final String EMAIL_FORMAT = "^[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}$";
 
     static {
-        try {
-            init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static void init() throws Exception {
         Properties prop = new Properties();
-        prop.load(new FileInputStream(MY_CONFIG_FILE_PATH));
+        try {
+            prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(MY_CONFIG_FILE_PATH));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+        SECURITY = prop.getProperty("security");
+        VALIDITY = Integer.parseInt(prop.getProperty("user.token.timeout"));
 
         FILE_SAVE_PATH = prop.getProperty("fileSavePath");
-    }
 
+    }
 }

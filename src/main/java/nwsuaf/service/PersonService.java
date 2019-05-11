@@ -11,15 +11,11 @@ import java.util.List;
  */
 public interface PersonService {
 
-    public int personInsert(Person person);
+    public Person getByName(String name);
 
-    public int personDelete(int id);
+    /** 根据用户名和密码获取个数 */
+    public int getCountByNamePass(String name,String password);
 
-    public int personUpdate(Person person);
-
-    public Person personFindById(int id);
-
-    public List<Person> personFindByName(String name);
-
-    public List<Person> personFindAll();
+    /** 根据用户名和密码获取登陆用的信息 */
+    public Person getLoginByNamePass(String name,String password);
 }

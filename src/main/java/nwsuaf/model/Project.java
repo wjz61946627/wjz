@@ -10,26 +10,43 @@ import java.util.Date;
  */
 public class Project implements Serializable {
 
-    private Integer proId;
+    /** 主键*/
+    private Integer pid;
 
-    private String proName;
+    /** 项目名称*/
+    private String pname;
 
+    /** 项目组长id*/
+    private Integer leader;
+
+    /** 项目创建日期*/
     private Date date;
 
-    public Integer getProId() {
-        return proId;
+    /** 项目概述 */
+    private String desc;
+
+    public Integer getPid() {
+        return pid;
     }
 
-    public void setProId(Integer proId) {
-        this.proId = proId;
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 
-    public String getProName() {
-        return proName;
+    public String getPname() {
+        return pname;
     }
 
-    public void setProName(String proName) {
-        this.proName = proName;
+    public void setPname(String pname) {
+        this.pname = pname;
+    }
+
+    public Integer getLeader() {
+        return leader;
+    }
+
+    public void setLeader(Integer leader) {
+        this.leader = leader;
     }
 
     public Date getDate() {
@@ -40,4 +57,11 @@ public class Project implements Serializable {
         this.date = date;
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 }

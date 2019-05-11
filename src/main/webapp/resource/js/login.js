@@ -2,6 +2,7 @@ function initLogin() {
     $("#login").click(function () {
         $.ajax({
             url:"/login/sign",
+            // url:"/login/welcome",
             timeout:500,
             type:"POST",
             dataType:"json",
@@ -14,9 +15,9 @@ function initLogin() {
                     $("#errorInfo").html(msg["msg"]);
                     $("#errorInfo").show();
                 }else{
-                    window.location.href='login/welcome'
+                    $("#loginForm").submit();
                 }
-            },
+            }
         })
     });
 }

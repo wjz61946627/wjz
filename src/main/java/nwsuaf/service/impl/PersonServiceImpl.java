@@ -19,27 +19,15 @@ public class PersonServiceImpl implements PersonService {
     @Resource
     private PersonDao personDao;
 
-    public int personInsert(Person person){
-        return personDao.personInsert(person);
+    public Person getByName(String name) {
+        return null;
     }
 
-    public int personDelete(int id){
-        return personDao.personDelete(id);
+    public int getCountByNamePass(String name, String password) {
+        return 0;
     }
 
-    public int personUpdate(Person person){
-        return personDao.personUpdate(person);
-    }
-
-    public Person personFindById(int id){
-        return personDao.personFindById(id);
-    }
-
-    public List<Person> personFindByName(String name){
-        return personDao.personFindByName(name);
-    }
-
-    public List<Person> personFindAll(){
-        return personDao.personFindAll();
+    public Person getLoginByNamePass(String name, String password) {
+        return null;
     }
 }

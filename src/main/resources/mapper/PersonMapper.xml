@@ -14,18 +14,22 @@
         <result property="email" column="email"/>
     </resultMap>
 
-    <insert id="personInsert" parameterType="nwsuaf.model.Person">
+    <insert id="insert" parameterType="nwsuaf.model.Person">
         INSERT INTO person (id,password,name,age,sex,tel,address,email) VALUES (#{id},#{password},#{name}, #{age}, #{sex},#{tel},#{address},#{email});
         <selectKey keyColumn="id" resultType="int" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
 
-    <delete id="personDelete" parameterType="int">
+    <select id="getByNamePass" parameterType="int">
+        select count(*) from person where name =#{name} and password =#{name}
+    </select>
+
+    <delete id="delete" parameterType="int">
         DELETE FROM person WHERE id = #{id};
     </delete>
 
-    <update id="personUpdate" parameterType="nwsuaf.model.Person">
+    <update id="update" parameterType="nwsuaf.model.Person">
         UPDATE person
         SET name = #{name},
             age = #{age},
@@ -36,15 +40,15 @@
         WHERE id = #{id}
     </update>
 
-    <select id="personFindById" parameterType="int" resultType="nwsuaf.model.Person">
+    <select id="getById" parameterType="int" resultType="nwsuaf.model.Person">
         SELECT * FROM person WHERE id=#{id}
     </select>
 
-    <select id="personFindByName" parameterType="String" resultType="nwsuaf.model.Person">
+    <select id="getByName" parameterType="String" resultType="nwsuaf.model.Person">
         SELECT * FROM person WHERE name=#{name}
     </select>
 
-    <select id="personFindAll" resultType="nwsuaf.model.Person">
+    <select id="findAll" resultType="nwsuaf.model.Person">
         SELECT * FROM person
     </select>
 </mapper>

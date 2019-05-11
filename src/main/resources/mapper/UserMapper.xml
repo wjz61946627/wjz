@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nwsuaf.dao.UserDao">
+
+    <resultMap id="userMap" type="nwsuaf.model.User">
+        <id property="uid" column="uid"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="token" column="token"/>
+        <result property="admin" column="admin"/>
+        <result property="email" column="email"/>
+        <result property="timecreate" column="timecreate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="loginByNamePass" resultType="nwsuaf.model.User">
+        select * from user where name=#{name} and password = #{password}
+    </select>
+
+    <select id="countByNamePass" resultType="int">
+        select count(*) from user where name=#{name} and password = #{password}
+    </select>
+
+    <select id="findAllNoPassword" resultType="nwsuaf.model.User">
+        select uid,name,email,timecreate from user
+    </select>
+
+    <insert id="insert">
+        insert into user(name,password,timecreate
+        <if test="email != null and email != ''">
+            ,email
+        </if>
+        )
+        value(
+        #{name},#{password},#{timecreate,jdbcType = TIMESTAMP }
+        <if test="email != null and email != ''">
+            ,#{email}
+        </if>
+        )
+    </insert>
+
+    <delete id="deleteByUid">
+        delete from user where uid=#{uid}
+    </delete>
+
+    <update id="updateByUid">
+        update user set
+        uid = #{uid}
+        <if test="name != null and name != ''">
+            ,name = #{name}
+        </if>
+        <if test="email != null and email != ''">
+            ,email = #{email}
+        </if>
+        where uid = ${uid}
+    </update>
+</mapper>

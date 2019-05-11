@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <link href='<c:url value="/resource/css/bootstrap.css" />' rel="stylesheet">
+    <link href='<c:url value="/resource/css/bootstrap.min.css" />' rel="stylesheet">
     <link href='<c:url value="/resource/css/sign.css" />' rel="stylesheet">
 
     <script src='<c:url value="/resource/js/jquery-3.3.1.min.js" />'></script>
@@ -14,7 +14,7 @@
 <body>
 
 <div class="container">
-    <form class="form-signin" method="post" id="loginForm">
+    <form class="form-signin" method="post" id="loginForm" action="/login/welcome">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="name" class="sr-only">Username</label>
         <input type="text" id="name" name="name" class="form-control" placeholder="Username" required autofocus>
