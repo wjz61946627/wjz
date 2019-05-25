@@ -1,13 +1,18 @@
 package nwsuaf.controller;
 
-import nwsuaf.model.Person;
-import nwsuaf.model.ProjectLog;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import nwsuaf.model.Group;
+import nwsuaf.model.User;
+import nwsuaf.service.GroupService;
+import nwsuaf.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,55 +23,84 @@ import java.util.List;
 @Controller
 @RequestMapping("/group")
 public class GroupController {
+
+    @Resource
+    private GroupService groupService;
+
+    /**
+     * 获取所有组
+     */
+    @ResponseBody
+    @GetMapping("/findAll")
+    public String findAll() {
+        JsonArray result = new JsonArray();
+
+        List<Group> groups = groupService.findAll();
+
+        for (Group group : groups) {
+            result.add(Utils.objectToJson(group));
+        }
+
+        return result.toString();
+    }
+
     /**
      * 创建一个组
      */
-    @GetMapping("/create")
-    public ModelAndView create(Person person) {
-        List<ProjectLog> logs = new ArrayList<ProjectLog>();
+    @ResponseBody
+    @PostMapping("/create")
+    public String create(Group group) {
+        JsonObject result = new JsonObject();
 
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("logs", logs);
-        mv.setViewName("projectLog");
-        return mv;
+        groupService.insert(group);
+
+        result.addProperty(Utils.RESULT, Utils.TRUE);
+        return result.toString();
     }
 
     /**
-     * 新增一个成员
+     * 创建一个组
      */
-    @GetMapping("/add")
-    public ModelAndView add(Person person) {
-        List<ProjectLog> logs = new ArrayList<ProjectLog>();
+    @ResponseBody
+    @PostMapping("/update")
+    public String update(Group group) {
+        JsonObject result = new JsonObject();
 
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("logs", logs);
-        mv.setViewName("projectLog");
-        return mv;
+        groupService.update(group);
+
+        result.addProperty(Utils.RESULT, Utils.TRUE);
+        return result.toString();
     }
 
     /**
-     * 移除一个成员
+     * 添加一个成员
      */
-    @GetMapping("/remove")
-    public ModelAndView remove(Person person) {
-        List<ProjectLog> logs = new ArrayList<ProjectLog>();
+    @ResponseBody
+    @PostMapping("/addMember")
+    public String addMember(int gid, int uid) {
+        int num = groupService.addMember(gid, uid);
+        System.out.println(num);
 
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("logs", logs);
-        mv.setViewName("projectLog");
-        return mv;
+        JsonObject result = new JsonObject();
+        result.addProperty(Utils.RESULT, Utils.TRUE);
+        return result.toString();
     }
 
     /**
-     * 赋予一个组某个项目的某个权限
+     * 获取所有成员
      */
-    @GetMapping("/permissions")
-    public ModelAndView permissions(Person person) {
-        List<ProjectLog> logs = new ArrayList<ProjectLog>();
+    @ResponseBody
+    @GetMapping("/members")
+    public String members(int gid) {
+        JsonArray result = new JsonArray();
 
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("logs", logs);
-        mv.setViewName("projectLog");
-        return mv;
+        List<User> users = groupService.members(gid);
+
+        for (User user : users) {
+            result.add(Utils.objectToJson(user));
+        }
+
+        return result.toString();
     }
+
 }

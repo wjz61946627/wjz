@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nwsuaf.dao.GroupDao">
+    <select id="findAll" resultType="nwsuaf.model.Group">
+        select gid,gname from `group`
+    </select>
+
+    <insert id="insert">
+        insert into `group`(gname) value(#{gname})
+    </insert>
+
+    <insert id="addMember" parameterType="nwsuaf.model.UserToGroup">
+        insert into `user2group`(uid, gid) value (#{uid}, #{gid})
+    </insert>
+
+    <select id="members" resultType="nwsuaf.model.User">
+        select user.uid,user.name,user.email
+        from user,user2group
+        where user2group.gid = #{gid} and user2group.uid = user.uid
+    </select>
+
+    <update id="update">
+        update `group` set
+        gid = #{gid}
+        <if test="gname != null and gname != ''">
+            ,gname = #{gname}
+        </if>
+        where gid = ${gid}
+    </update>
+</mapper>

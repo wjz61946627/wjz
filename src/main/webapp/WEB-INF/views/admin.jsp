@@ -63,6 +63,22 @@
     <%--右侧侧边栏--%>
     <div class="rightContent">
 
+        <div class="rightContainer" id="user">
+            <div class="panel panel-default">
+                <!-- Table -->
+                <table id="userTab" class="table table-hover"></table>
+
+            </div>
+
+        </div>
+
+        <div class="rightContainer" id="group">
+            <div class="panel panel-default">
+                <table id="gTable" class="table table-hover"></table>
+            </div>
+
+        </div>
+
         <div class="rightContainer" id="project">
 
             <div class="card w-100 box-shadow project">
@@ -83,25 +99,7 @@
 
         </div>
 
-        <div class="rightContainer" id="group">
-            我是组
-        </div>
 
-        <div class="rightContainer" id="user">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <%--<div class="panel-heading">--%>
-                <%--<button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal"--%>
-                <%--data-target="#userModal" name="addUser">新增账号--%>
-                <%--</button>--%>
-                <%--</div>--%>
-
-                <!-- Table -->
-                <table id="userTab" class="table table-hover"></table>
-
-            </div>
-
-        </div>
     </div>
 
 
@@ -163,7 +161,7 @@
                                    placeholder="example@example.com">
                         </div>
                     </div>
-
+                </form>
             </div>
 
             <div class="modal-footer">
@@ -171,6 +169,93 @@
             </div>
         </div>
     </div>
+</div>
+
+<!--group-member Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="memberModalLabel">成员列表</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <table id="memberTable" class="table table-hover"></table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--group-add-member Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="memberModalLabel">成员列表</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <table id="memberTable" class="table table-hover"></table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- groupModal -->
+<div class="modal fade" id="gModal" tabindex="-1" role="dialog" aria-labelledby="gModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="gModalLabel">组信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form class="form-horizontal" role="form" id="gInfo">
+                    <div class="input-group mb-3">
+                        <label class="col-sm-2 control-label">GID</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" readonly="readonly" id="gid" name="gid" value=""
+                                   placeholder="自动生成">
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="gname" value="" id="gname"
+                                   placeholder="大小写英文字母和数字">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="gModelSubmit">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%--通用警告框--%>
+<div class="alert alert-warning" role="alert">
+    操作失败
 </div>
 
 </body>

@@ -1,6 +1,5 @@
 package nwsuaf.service;
 
-import nwsuaf.model.Person;
 import nwsuaf.model.User;
 
 import java.util.List;

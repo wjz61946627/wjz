@@ -33,6 +33,8 @@
 <body style="width:600px;">
 <table id="mytab" class="table table-hover"></table>
 
+<table id="gtab" class="table table-hover"></table>
+
 <script>
     console.log("start");
 
@@ -48,7 +50,19 @@
         ].join('')
     }
 
-    window.operateEvents = {
+    // window.operateEvents = {
+    //     'click .like': function (e, value, row, index) {
+    //         alert('You click like action, row: ' + JSON.stringify(row))
+    //     },
+    //     'click .remove': function (e, value, row, index) {
+    //         $('#mytab').bootstrapTable('remove', {
+    //             field: 'id',
+    //             values: [row.id]
+    //         })
+    //     }
+    // }
+
+    var groupEvents = {
         'click .like': function (e, value, row, index) {
             alert('You click like action, row: ' + JSON.stringify(row))
         },
@@ -65,7 +79,7 @@
         url: 'data1.json',
         striped: true, // 是否显示行间隔色
         showExport: true,
-        showRefresh:true,
+        showRefresh: true,
         exportDataType: "all",
         exportTypes: ['excel', 'pdf'],
         columns: [
@@ -91,7 +105,8 @@
                 field: 'operate',
                 title: '操作',
                 align: 'center',
-                events: window.operateEvents,
+                // events: window.operateEvents,
+                events: groupEvents,
                 formatter: operateFormatter
             },
 

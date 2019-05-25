@@ -17,6 +17,14 @@ import java.util.Set;
  */
 public class Utils {
 
+    /**
+     * 结果返回
+     */
+    public static final String RESULT = "result";
+
+    public static final String TRUE = "true";
+    public static final String FALSE = "false";
+
     private static final String CONNECT = "&";
 
     /**
