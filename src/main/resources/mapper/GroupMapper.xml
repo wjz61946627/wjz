@@ -14,10 +14,23 @@
         insert into `user2group`(uid, gid) value (#{uid}, #{gid})
     </insert>
 
+    <insert id="addUserToGroup">
+        insert into `user2group`(uid, gid) value (#{uid}, #{gid})
+    </insert>
+
     <select id="members" resultType="nwsuaf.model.User">
         select user.uid,user.name,user.email
         from user,user2group
         where user2group.gid = #{gid} and user2group.uid = user.uid
+    </select>
+
+    <select id="findUnselectByGid" resultType="nwsuaf.model.User">
+        select uid,name
+        from user
+        where uid not in (
+          select user.uid from user,user2group
+          where user2group.gid = #{gid} and user2group.uid = user.uid
+        )
     </select>
 
     <update id="update">
@@ -26,6 +39,14 @@
         <if test="gname != null and gname != ''">
             ,gname = #{gname}
         </if>
-        where gid = ${gid}
+        where gid = #{gid}
     </update>
+
+    <delete id="deleteByGid">
+        delete  from `group` where gid = #{gid}
+    </delete>
+
+    <delete id="delMember" parameterType="nwsuaf.model.UserToGroup">
+        delete  from `user2group` where gid = #{gid} and uid = #{uid}
+    </delete>
 </mapper>

@@ -169,13 +169,13 @@ var memberTable = '#memberTable';
 
 function gOperateDIV(value, row, index) {
     return [
-        '<a class="add" href="javascript:void(0)" title="新增成员">',
+        '<a class="addG" href="javascript:void(0)" title="新增成员">',
         '<i class="fa fa-user-circle"></i>',
         '</a>  ',
-        '<a class="update" href="javascript:void(0)" title="修改">',
+        '<a class="updateG" href="javascript:void(0)" title="修改">',
         '<i class="fa fa-cog"></i>',
         '</a>  ',
-        '<a class="remove" href="javascript:void(0)" title="删除">',
+        '<a class="removeG" href="javascript:void(0)" title="删除">',
         '<i class="fa fa-trash"></i>',
         '</a>'
     ].join('')
@@ -197,20 +197,10 @@ function updateG() {
 }
 
 var gOperateEvents = {
-    'click .add': function (e, value, row, index) {
-        var modal = $('#gModal');
-        modal.on('show.bs.modal', function (e) {
-            modal.find('.modal-title').text("新增组");
-            var submit = $('#userModelSubmit');
-            submit.text("修改");
-            submit.on('click', null, modal, addUser);
-
-            modal.find('#gname').val(row["gname"]);
-        });
-
-        modal.modal('show');
+    'click .addG': function (e, value, row, index) {
+        initUnselectUserTable(row.gid);
     },
-    'click .update': function (e, value, row, index) {
+    'click .updateG': function (e, value, row, index) {
         var modal = $('#gModal');
         modal.on('show.bs.modal', function (e) {
             modal.find('.modal-title').text("更新组");
@@ -224,11 +214,26 @@ var gOperateEvents = {
 
         modal.modal('show');
     },
-    'click .remove': function (e, value, row, index) {
-        $('#gTable').bootstrapTable('remove', {
-            field: 'gid',
-            values: [row.id]
-        })
+    'click .removeG': function (e, value, row, index) {
+
+        $.ajax({
+            method: 'GET',
+            url: '/group/deleteByGid',
+            data: 'gid=' + row.gid,
+            error: function () {
+                showWarning("请求失败");
+            },
+            success: function (msg) {
+                if (msg["result"] === "false") {
+                    showWarning(msg["msg"]);
+                } else {
+                    $('#gTable').bootstrapTable('remove', {
+                        field: 'gid',
+                        values: [row.gid]
+                    })
+                }
+            }
+        });
     }
 }
 
@@ -250,10 +255,13 @@ function gOperateMemberTab() {
 
 var eventDelMember = {
     'click .removeMember': function (e, value, row, index) {
+        var param = [
+            'gid=' + $('#memberModal').find('.saveGid').attr('data-gid'),
+            'uid=' + row.uid
+        ].join('&');
         $.ajax({
-            method: 'GET',
-            url: '/admin/group/delMemberByUid',
-            data: 'uid=' + row[uid],
+            url: '/group/delMember',
+            data: param,
             error: function () {
                 showWarning("请求失败");
             },
@@ -263,7 +271,7 @@ var eventDelMember = {
                 } else {
                     $(memberTable).bootstrapTable('remove', {
                         field: 'uid',
-                        values: [row.id]
+                        values: [row.uid]
                     })
                 }
             }
@@ -274,8 +282,10 @@ var eventDelMember = {
 // 显示组成员
 var gEventMember = {
     'click .group': function (e, value, row, index) {
+        $('#memberModal').find('.saveGid').attr('data-gid', row.gid);
+
         var optionMemberTable = {
-            url: '/group/members',
+            url: '/group/members?gid=' + row.gid,
             pagination: false,
             columns: [
                 {
@@ -399,4 +409,72 @@ function initGroupTable() {
     var exportTool = $('.fixed-table-toolbar').find('.export');
     exportTool.before(gTabTool());
     exportTool.find('.dropdown-toggle').attr('title', "导出数据");
+}
+
+var gUnselectEvents = {
+    'click .addGU': function (e, value, row, index) {
+        var param = [
+            'uid=' + row.uid,
+            'gid=' + $('#userMemberGM').find('#saveGid').attr('data-gid')
+        ].join('&');
+
+        $.ajax({
+            url: '/group/addMember',
+            type: "GET",
+            data: param,
+            error: function (msg) {
+                console.log(msg);
+            },
+            success: function (msg, stat, xhr) {
+                $('#unSelectUserTable').bootstrapTable('refresh', null);
+            }
+        });
+    }
+}
+
+function gUnselectDIV(value, row, index) {
+    return [
+        '<a class="addGU" href="javascript:void(0)" title="新增成员">',
+        '<i class="fa fa-plus-square-o"></i>',
+        '</a>  ',
+    ].join('');
+}
+
+// 初始化不是本组成员的列表
+function initUnselectUserTable(gid) {
+    var option = {
+        url: '/group/findUnselectByGid?gid=' + gid,
+        striped: true, // 是否显示行间隔色
+        pagination: false,
+        columns: [
+            {
+                field: 'uid',
+                title: '工号',
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'name',
+                title: '名称',
+                align: 'center'
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: gUnselectEvents,
+                formatter: gUnselectDIV
+            }
+        ]
+    }
+
+    $('#userMemberGM').find('#saveGid').attr('data-gid', gid);
+
+    $('#userMemberGM').on('show.bs.modal', function (e) {
+            $('#unSelectUserTable').bootstrapTable('destroy');
+            $('#unSelectUserTable').bootstrapTable(option);
+        }
+    );
+
+    $('#userMemberGM').modal('show');
 }

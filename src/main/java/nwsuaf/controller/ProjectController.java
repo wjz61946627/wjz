@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/group")
-public class GroupController {
+public class ProjectController {
 
     @Resource
     private GroupService groupService;

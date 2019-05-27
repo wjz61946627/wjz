@@ -184,6 +184,7 @@
             </div>
 
             <div class="modal-body">
+                <label data-gid="" class="hide saveGid"></label>
                 <table id="memberTable" class="table table-hover"></table>
             </div>
 
@@ -192,19 +193,20 @@
 </div>
 
 <!--group-add-member Modal -->
-<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel"
+<div class="modal fade" id="userMemberGM" tabindex="-1" role="dialog" aria-labelledby="userMemberGMLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="memberModalLabel">成员列表</h5>
+                <h5 class="modal-title text-center" id="userMemberGMLabel">用户列表</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
             <div class="modal-body">
-                <table id="memberTable" class="table table-hover"></table>
+                <label data-gid="" class="hide" id="saveGid"></label>
+                <table id="unSelectUserTable" class="table table-hover"></table>
             </div>
 
         </div>
@@ -230,7 +232,7 @@
                         <label class="col-sm-2 control-label">GID</label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" readonly="readonly" id="gid" name="gid" value=""
+                            <input type="text" class="form-control" readonly="readonly" id="gid" name="gid" value="0"
                                    placeholder="自动生成">
                         </div>
                     </div>

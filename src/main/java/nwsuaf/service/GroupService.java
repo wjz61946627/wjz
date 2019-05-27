@@ -2,6 +2,7 @@ package nwsuaf.service;
 
 import nwsuaf.model.Group;
 import nwsuaf.model.User;
+import nwsuaf.model.UserToGroup;
 
 import java.util.List;
 
@@ -23,17 +24,32 @@ public interface GroupService {
     public int insert(Group group);
 
     /**
+     * 删除一个组
+     * */
+    public int deleteByGid(int gid);
+
+    /**
      * 跟新一个组的信息
      * */
     public int update(Group group);
 
     /**
-     * 获取所有组信息
+     * 添加一个成员
      */
-    public int addMember(int gid, int uid);
+    public int addMember(UserToGroup userToGroup);
+
+    /**
+     * 删除一个成员
+     */
+    public int delMember(UserToGroup userToGroup);
 
     /**
      * 获取所有成员
      */
     public List<User> members(int gid);
+
+    /**
+     * 获取不是gid成员的所有成员
+     */
+    public List<User> findUnselectByGid(int gid);
 }
