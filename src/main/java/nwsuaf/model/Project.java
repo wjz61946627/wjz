@@ -1,6 +1,7 @@
 package nwsuaf.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -10,20 +11,39 @@ import java.util.Date;
  */
 public class Project implements Serializable {
 
-    /** 主键*/
+    /**
+     * 主键
+     */
     private Integer pid;
 
-    /** 项目名称*/
+    /**
+     * 项目名称
+     */
     private String pname;
 
-    /** 项目组长id*/
+    /**
+     * 项目组长id
+     */
     private Integer leader;
 
-    /** 项目创建日期*/
-    private Date date;
+    /**
+     * 项目创建日期
+     */
+    private Timestamp date;
 
-    /** 项目概述 */
+    /**
+     * 项目概述
+     */
     private String desc;
+
+    /**
+     * 项目可见性
+     */
+    private int visited;
+
+    public void init() {
+        setDate(new Timestamp(System.currentTimeMillis()));
+    }
 
     public Integer getPid() {
         return pid;
@@ -49,11 +69,11 @@ public class Project implements Serializable {
         this.leader = leader;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -63,5 +83,13 @@ public class Project implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public int getVisited() {
+        return visited;
+    }
+
+    public void setVisited(int visited) {
+        this.visited = visited;
     }
 }

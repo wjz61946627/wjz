@@ -27,7 +27,6 @@
     <jsp:param name="pageTitle" value="newInstance.com"/>
     <jsp:param name="pageSlogan" value=" "/>
 </jsp:include>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="content">
 
@@ -81,20 +80,8 @@
 
         <div class="rightContainer" id="project">
 
-            <div class="card w-100 box-shadow project">
-                <div class="card-body">
-                    <h5 class="card-title"><img class="mr-2" src="<c:url value="/resource/png/paperclip-3x.png" />"
-                                                alt="项目组长" style="float:left;"/>八号楼拆除项目</h5>
-                    <h6>
-                        <span class="badge badge-dark">组长</span> 刘东辉
-                        <span class="badge badge-dark">人数</span> 8
-                        <span class="badge badge-dark">文件总数</span> 20
-                    </h6>
-                    <p class="card-text">
-                        本项目主要是关于八号楼整体拆除
-                    </p>
-                    <footer class="blockquote-footer text-right">二狗:我提交了xx文件 2019-01-20 20:00:10</footer>
-                </div>
+            <div class="panel panel-default">
+                <table id="pTable" class="table table-hover"></table>
             </div>
 
         </div>
@@ -254,6 +241,85 @@
     </div>
 </div>
 
+
+<!-- project-info-Modal -->
+<div class="modal fade" id="pInfoModal" tabindex="-1" role="dialog" aria-labelledby="pInfoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="pInfoModalLabel">项目信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form class="form-horizontal" role="form" id="pInfo">
+
+                    <div class="input-group mb-3">
+                        <label class="col-sm-2 control-label">ID</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" readonly="readonly" name="pid" id="pid" value="0"
+                                   placeholder="自动生成">
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="pname" id="pname"
+                                   placeholder="项目名称">
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="col-sm-2 control-label">描述</label>
+                        <div class="col-sm-9">
+                            <textarea cols="10" rows="6" class="form-control" name="desc" id="desc"
+                                      placeholder="6~20个字符，可包含中文"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="pInfoModalSubmit">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- project-access-Modal -->
+<div class="modal fade" id="pAccessModal" tabindex="-1" role="dialog" aria-labelledby="pAccessModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 600px">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="pAccessModalLabel">权限列表</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <label data-pid="" class="hide savePid"></label>
+
+                <div class="input-group mb-3">
+                    <input type="radio" name="visited" id="visitedPublic" onclick="pAccess(0)" checked/>
+                    <label class="col-sm-2 control-label">公开</label>
+                    <input type="radio" name="visited" id="visitedPrivate" onclick="pAccess(1)" />
+                    <label class="col-sm-2 control-label">私有</label>
+                </div>
+
+                <table id="pAccessTable" class="table table-hover"></table>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <%--通用警告框--%>
 <div class="alert alert-warning" role="alert">

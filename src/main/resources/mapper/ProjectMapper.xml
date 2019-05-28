@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nwsuaf.dao.ProjectDao">
+
+    <select id="findAll" resultType="nwsuaf.model.Project">
+        select * from `project`
+    </select>
+
+    <select id="countByName" resultType="int">
+        select count(*) from `project` where pname = #{pname}
+    </select>
+
+    <select id="accessList" resultType="nwsuaf.model.ProjectToGroup">
+        select * from project2group where pid = #{pid}
+    </select>
+
+    <insert id="insert">
+        insert into `project`(pname,`desc`,`date`) value(#{pname}, #{desc}, #{date,jdbcType = TIMESTAMP})
+    </insert>
+
+    <delete id="delByPid">
+        delete  from `project` where pid = #{pid}
+    </delete>
+
+    <update id="updateByPid">
+        update `project` set
+        pid = #{pid}
+        <if test="pname != null and pname != ''">
+            ,pname = #{pname}
+        </if>
+        <if test="desc != null and desc != ''">
+            ,`desc` = #{desc}
+        </if>
+        where pid = #{pid}
+    </update>
+
+    <insert id="insertAccess" parameterType="nwsuaf.model.ProjectToGroup">
+      insert into project2group(pid, gid, access)
+      select #{pid},#{gid},#{access}
+      from dual
+      where not exists (
+        select * from project2group where pid=#{pid} and gid=#{gid}
+      )
+    </insert>
+
+    <update id="updateAccess">
+        update project2group set access = #{access} where pid = #{pid} and gid=#{gid}
+    </update>
+
+    <update id="updateVisited">
+        update Project
+        set visited = #{visited}
+        where pid = #{pid}
+    </update>
+</mapper>

@@ -21,6 +21,8 @@ function initGroup() {
 function initProject() {
     $(".rightContainer").hide();
     $('#project').show();
+
+    initPTable();
 }
 
 // 弹一个警告框
@@ -477,4 +479,297 @@ function initUnselectUserTable(gid) {
     );
 
     $('#userMemberGM').modal('show');
+}
+
+
+//====================项目
+
+var pOptionEvents = {
+    'click .accessP': function (e, value, row, index) {
+        showPAccessModal(row);
+    },
+    'click .updateP': function (e, value, row, index) {
+        updateP(row);
+    },
+    'click .removeP': function (e, value, row, index) {
+        $.ajax({
+            url: '/project/deleteByPid?pid=' + row.pid,
+            error: function () {
+                showWarning("请求失败");
+            },
+            success: function (msg) {
+                $('#pTable').bootstrapTable('remove', {
+                    field: 'pid',
+                    values: [row.pid]
+                })
+            }
+        });
+    }
+};
+
+function pOptionDIV(value, row, index) {
+    return [
+        '<a class="accessP" href="javascript:void(0)" title="权限">',
+        '<i class="fa fa-lock"></i>',
+        '</a>  ',
+        '<a class="updateP" href="javascript:void(0)" title="修改">',
+        '<i class="fa fa-cog"></i>',
+        '</a>  ',
+        '<a class="removeP" href="javascript:void(0)" title="删除">',
+        '<i class="fa fa-trash"></i>',
+        '</a>  '
+    ].join('');
+}
+
+function refreshPTable() {
+    $('#pTable').bootstrapTable('refresh', null);
+}
+
+function showPAccessModal(row) {
+    var modal = $('#pAccessModal');
+    modal.on('show.bs.modal', function (e) {
+        modal.find('.savePid').attr('data-pid', row.pid);
+        if (row.visited == 1) {
+            modal.find('#visitedPublic').attr('checked', false);
+            modal.find('#visitedPrivate').attr('checked', true);
+        }
+
+        initPAccessTable(row);
+    });
+
+    modal.modal('show');
+}
+
+function addProject() {
+    var modal = $('#pInfoModal');
+
+    $('#pInfoModalSubmit').on('click', null, null, function () {
+        $.ajax({
+            url: '/project/create',
+            type: "POST",
+            data: $("#pInfo").serialize(),
+            error: function (msg) {
+
+            },
+            success: function (msg, stat, xhr) {
+                modal.modal('hide');
+                refreshPTable();
+            }
+        });
+    });
+
+
+    modal.on('show.bs.modal', function (e) {
+        modal.find('.modal-title').text("新增项目");
+        var submit = $('#pInfoModalSubmit');
+        submit.text("增加");
+    });
+
+    modal.modal('show');
+}
+
+function updateP(row) {
+    $('#pInfoModalSubmit').on('click', null, null, function () {
+        $.ajax({
+            url: '/project/updateByPid',
+            type: "POST",
+            data: $("#pInfo").serialize(),
+            error: function (msg) {
+
+            },
+            success: function (msg, stat, xhr) {
+
+                refreshPTable();
+            }
+        });
+    });
+
+    var modal = $('#pInfoModal');
+    modal.on('show.bs.modal', function (e) {
+        modal.find('.modal-title').text("更新项目");
+        modal.find('#pid').val(row.pid);
+        modal.find('#pname').val(row.pname);
+        modal.find('#desc').val(row.desc);
+
+        var submit = $('#pInfoModalSubmit');
+        submit.text("增加");
+    });
+
+    modal.modal('show');
+}
+
+function pToolDIV() {
+    return [
+        '<button class="btn btn-secondary" type="button" name="refresh" aria-label="Refresh" title="刷新" onclick="refreshPTable()">',
+        '<i class="fa fa-refresh" aria-hidden="true"></i>',
+        '</button>',
+        '<button class="btn btn-secondary" type="button" name="add" aria-label="add" title="新增" data-toggle="modal" onclick="addProject()">',
+        '<i class="fa fa-plus-square"></i>',
+        '</button>'
+    ].join('');
+}
+
+function initPTable() {
+    var option = {
+        url: '/project/findAll',
+        striped: true, // 是否显示行间隔色
+        showExport: true,
+        exportDataType: "all",
+        exportTypes: ['excel', 'pdf'],
+        pagination: false,
+        columns: [
+            {
+                field: 'pid',
+                title: '编号',
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'pname',
+                title: '名称',
+                align: 'center'
+            },
+            {
+                field: 'date',
+                title: '创建时间',
+                align: 'center'
+            },
+            {
+                field: 'desc',
+                title: '备注',
+                align: 'left',
+                width: '500px'
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: pOptionEvents,
+                formatter: pOptionDIV
+            }
+        ]
+    }
+
+    $('#pTable').bootstrapTable('destroy');
+    $('#pTable').bootstrapTable(option);
+
+    var exportTool = $('.fixed-table-toolbar').find('.export');
+    exportTool.before(pToolDIV());
+    exportTool.find('.dropdown-toggle').attr('title', "导出数据");
+}
+
+var pAccessEvent = {
+    'click .accessP': function (e, value, row, index) {
+        var checked = e.currentTarget.checked;
+        var index = $(e.currentTarget).attr('data-index');
+        var access = 0;
+        index = Math.pow(2, index);
+        if (checked) {
+            access = row.access | index;
+        } else {
+            access = row.access - index;
+        }
+
+        row.access = access;
+
+        var param = [
+            'pid=' + $('#pAccessModal').find('.savePid').attr('data-pid'),
+            'gid=' + row.gid,
+            'access=' + access
+        ].join('&');
+
+        $.ajax({
+            url: '/project/updateAccess',
+            type: "GET",
+            data: param,
+            error: function (msg) {
+                console.log(msg);
+            },
+            success: function (msg, stat, xhr) {
+                $('#unSelectUserTable').bootstrapTable('refresh', null);
+            }
+        });
+    }
+}
+
+function pAccessDIV(value, row, index, i) {
+    // 第i位为1则为true
+    var check = (row.access >> i & 1) > 0 ? 'checked' : '';
+    return [
+        '<input class="accessP" type="checkbox" ',
+        check,
+        ' data-index="',
+        i,
+        '"/>',
+    ].join('');
+}
+
+function initPAccessTable(row) {
+    var option = {
+        url: '/project/accessList?pid=' + row.pid,
+        striped: true, // 是否显示行间隔色
+        pagination: false,
+        columns: [
+            {
+                field: 'gid',
+                title: '组号',
+                align: 'center',
+                sortable: true
+            },
+            {
+                field: 'gname',
+                title: '组名',
+                align: 'center'
+            },
+            {
+                field: 'fread',
+                title: '文件-读取',
+                align: 'center',
+                events: pAccessEvent,
+                formatter: function (value, row, index) {
+                    return pAccessDIV(value, row, index, 0);
+                }
+            },
+            {
+                field: 'fupload',
+                title: '文件-上传',
+                align: 'center',
+                events: pAccessEvent,
+                formatter: function (value, row, index) {
+                    return pAccessDIV(value, row, index, 1);
+                }
+            },
+            {
+                field: 'fdelete',
+                title: '文件-下载',
+                align: 'center',
+                events: pAccessEvent,
+                formatter: function (value, row, index) {
+                    return pAccessDIV(value, row, index, 2);
+                }
+            }
+        ]
+    }
+
+    $('#pAccessTable').bootstrapTable('destroy');
+    $('#pAccessTable').bootstrapTable(option);
+}
+
+function pAccess(visited) {
+    var param = [
+        'pid=' + $('#pAccessModal').find('.savePid').attr('data-pid'),
+        'visited=' + visited
+    ].join('&');
+
+    $.ajax({
+        url: '/project/updateVisited',
+        type: "GET",
+        data: param,
+        error: function (msg) {
+            console.log(msg);
+        },
+        success: function (msg, stat, xhr) {
+
+        }
+    });
 }
