@@ -51,8 +51,6 @@ public class ProjectController {
             return result.toString();
         }
 
-        System.out.println(Utils.objectToJson(project));
-
         project.init();
 
         projectService.insert(project);
