@@ -41,6 +41,8 @@ function addUserModal(modal) {
         submit.text("新增");
         submit.on('click', null, modal, addUser);
     })
+
+    $('#userModal').modal('show');
 }
 
 function addUser(param) {

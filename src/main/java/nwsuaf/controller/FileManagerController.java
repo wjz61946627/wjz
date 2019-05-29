@@ -15,7 +15,7 @@ import java.io.File;
  * @date 2018/04/02
  */
 @Controller
-@RequestMapping("/file")
+@RequestMapping("/f")
 public class FileManagerController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)

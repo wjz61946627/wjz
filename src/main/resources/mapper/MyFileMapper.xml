@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nwsuaf.dao.MyFileDao">
+
+    <select id="findByPid" resultType="nwsuaf.model.MyFile">
+        select *
+        from myfile
+        where pid = #{pid}
+    </select>
+
+    <select id="countByPidFname" resultType="int">
+        select count(*)
+        from myfile
+        where pid = #{pid} and fname = #{fname}
+    </select>
+
+    <select id="readByFidPid" parameterType="nwsuaf.model.MyFile" resultType="nwsuaf.model.MyFile">
+        select pid,fid,fname
+        from myfile
+        where pid = #{pid} and fid = #{fid}
+    </select>
+
+    <insert id="insert" parameterType="nwsuaf.model.MyFile">
+      insert into myfile(fname, uploadtime, uploadid,pid)
+      select #{fname},#{uploadTime},#{uploadId},#{pid}
+      from dual
+      where not exists (
+        select * from myfile where pid=#{pid} and fname=#{fname}
+      )
+    </insert>
+
+    <delete id="deleteByPidFid" parameterType="nwsuaf.model.MyFile">
+        delete from myfile where pid = #{pid} and fid = #{fid}
+    </delete>
+
+</mapper>

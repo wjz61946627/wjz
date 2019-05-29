@@ -5,7 +5,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Set;
@@ -131,5 +134,18 @@ public class Utils {
 
     public static JsonElement objectToJson(Object value) {
         return new JsonParser().parse(new Gson().toJson(value));
+    }
+
+    /**
+     * path=path/pid/filename
+     */
+    public static String absolutePath(int pid, String fileName) {
+        StringBuilder result = new StringBuilder();
+        result.append(UtilConfig.FILE_SAVE_PATH);
+        result.append(File.separator);
+        result.append(pid);
+        result.append(File.separator);
+        result.append(fileName);
+        return result.toString();
     }
 }

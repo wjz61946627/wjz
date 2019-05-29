@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class UserController {
      */
     @ResponseBody
     @PostMapping(value = "/addUser", produces = "application/json;charset=utf-8")
-    public String addUser(User user) {
+    public String addUser(User user, HttpSession session) {
         JsonObject result = new JsonObject();
 
         if (!Utils.checkPassword(user.getPassword())) {
