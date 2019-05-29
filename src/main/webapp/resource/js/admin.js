@@ -66,8 +66,9 @@ function addUser(param) {
         }
     });
 
-    var modal = $(param.data[0]);
-    modal.find('.close').click();
+    var modal = $('#userModal');
+    modal.modal('hide');
+    refreshTable();
 }
 
 function operateFormatter(value, row, index) {
