@@ -1,6 +1,6 @@
 .leftNav {
     margin-top: 10px;
-    margin-left: 10px;
+    margin-left: 50px;
     float: left;
     width: 15%;
     height: 100%;
@@ -11,6 +11,7 @@
     width: 70%;
     height: 100%;
     margin-right: 10px;
+    margin-top: -40px;
 }
 
 .nav-item a {

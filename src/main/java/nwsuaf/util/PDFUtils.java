@@ -1,14 +1,14 @@
 package nwsuaf.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import com.aspose.cells.License;
 import com.aspose.cells.PdfSaveOptions;
 import com.aspose.cells.Workbook;
 import com.aspose.words.Document;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class PDFUtils {
 
@@ -131,6 +131,7 @@ public class PDFUtils {
 			Workbook wb = new Workbook(srcPath);
 
 			PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+			// 一个sheet一个pdf页
 			pdfSaveOptions.setOnePagePerSheet(true);
 			wb.save(os, pdfSaveOptions);
 			os.close();
