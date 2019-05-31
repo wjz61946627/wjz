@@ -7,7 +7,12 @@
     </select>
 
     <insert id="insert">
-        insert into `group`(gname) value(#{gname})
+      insert into `group`(gname)
+      select #{gname}
+      from dual
+      where not exists (
+        select * from `group` where gname=#{gname}
+      )
     </insert>
 
     <insert id="addMember" parameterType="nwsuaf.model.UserToGroup">

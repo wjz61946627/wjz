@@ -1,23 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="zh_CN">
 <head>
+    <meta charset="UTF-8">
+
     <link href='<c:url value="/resource/css/bootstrap.min.css" />' rel="stylesheet">
     <link href='<c:url value="/resource/css/font-awesome.min.css" />' rel="stylesheet">
     <link href='<c:url value="/resource/css/bootstrap-table.min.css" />' rel="stylesheet">
     <link href='<c:url value="/resource/css/admin.css" />' rel="stylesheet">
 
     <script src='<c:url value="/resource/js/jquery-3.3.1.min.js" />'></script>
-
-
-    <script src='<c:url value="/resource/js/bootstrap.4.min.js" />'></script>
-    <script src='<c:url value="/resource/js/xlsx.core.min.js" />'></script>
-    <script src='<c:url value="/resource/js/jspdf.min.js" />'></script>
-    <script src='<c:url value="/resource/js/jspdf.plugin.autotable.js" />'></script>
-    <script src='<c:url value="/resource/js/tableExport.min.js" />'></script>
+    <script src='<c:url value="/resource/js/bootstrap.min.js" />'></script>
     <script src='<c:url value="/resource/js/bootstrap-table.min.js" />'></script>
-    <%--<script src='<c:url value="/resource/js/bootstrap-table-zh-CN.js" />'></script>--%>
-    <script src='<c:url value="/resource/js/bootstrap-table-export.min.js" />'></script>
+    <script src='<c:url value="/resource/js/bootstrap-table-zh-CN.js" />'></script>
     <script src='<c:url value="/resource/js/admin.js" />'></script>
 
     <title>Welcome</title>
@@ -35,15 +30,15 @@
         <ul class="nav flex-column" id="">
 
             <li class="nav-item">
-                <a class="nav-link" href="#" id="nav-account" onclick="initAccount()">账号管理</a>
+                <a class="nav-link fa fa-user-circle-o" href="#" id="nav-account" onclick="initAccount()">&nbsp;&nbsp;账号管理</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#" id="nav-group" onclick="initGroup()">组管理</a>
+                <a class="nav-link fa fa-handshake-o" href="#" id="nav-group" onclick="initGroup()">&nbsp;&nbsp;组管理</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#" id="nav-project" onclick="initProject()">项目管理</a>
+                <a class="nav-link fa fa-bath" href="#" id="nav-project" onclick="initProject()">&nbsp;&nbsp;项目管理</a>
             </li>
 
             <%--<li class="nav-item dropdown">--%>
@@ -65,6 +60,16 @@
         <div class="rightContainer" id="user">
             <div class="panel panel-default">
                 <!-- Table -->
+                <div id="toolbarU" class="columns columns-right btn-group float-right">
+                    <button class="btn btn-secondary" type="button" name="refresh" aria-label="Refresh" title="刷新"
+                            onclick="refreshTable()">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-secondary" type="button" name="add" aria-label="add" title="新增"
+                            data-toggle="modal" onclick="addUserModal()">
+                        <i class="fa fa-plus-square"></i>
+                    </button>
+                </div>
                 <table id="userTab" class="table table-hover"></table>
 
             </div>
@@ -73,6 +78,17 @@
 
         <div class="rightContainer" id="group">
             <div class="panel panel-default">
+                <!-- Table -->
+                <div id="toolbarG" class="columns columns-right btn-group float-right">
+                    <button class="btn btn-secondary" type="button" name="refresh" aria-label="Refresh" title="刷新"
+                            onclick="refreshGTable()">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-secondary" type="button" name="add" aria-label="add" title="新增"
+                            data-toggle="modal" onclick="addGroupModal()">
+                        <i class="fa fa-plus-square"></i>
+                    </button>
+                </div>
                 <table id="gTable" class="table table-hover"></table>
             </div>
 
@@ -81,6 +97,19 @@
         <div class="rightContainer" id="project">
 
             <div class="panel panel-default">
+
+                <!-- Table -->
+                <div id="toolbarP" class="columns columns-right btn-group float-right">
+                    <button class="btn btn-secondary" type="button" name="refresh" aria-label="Refresh" title="刷新"
+                            onclick="refreshPTable()">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-secondary" type="button" name="add" aria-label="add" title="新增"
+                            data-toggle="modal" onclick="addProject()">
+                        <i class="fa fa-plus-square"></i>
+                    </button>
+                </div>
+
                 <table id="pTable" class="table table-hover"></table>
             </div>
 
@@ -310,7 +339,7 @@
                 <div class="input-group mb-3">
                     <input type="radio" name="visited" id="visitedPublic" onclick="pAccess(0)" checked/>
                     <label class="col-sm-2 control-label">公开</label>
-                    <input type="radio" name="visited" id="visitedPrivate" onclick="pAccess(1)" />
+                    <input type="radio" name="visited" id="visitedPrivate" onclick="pAccess(1)"/>
                     <label class="col-sm-2 control-label">私有</label>
                 </div>
 
@@ -326,5 +355,6 @@
     操作失败
 </div>
 
+<jsp:include page="foot.jsp" flush="true"/>
 </body>
 </html>

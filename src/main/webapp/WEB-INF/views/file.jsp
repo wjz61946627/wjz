@@ -14,13 +14,8 @@
     <link href='<c:url value="/resource/css/file.css" />' rel="stylesheet">
 
     <script src='<c:url value="/resource/js/jquery-3.3.1.min.js" />'></script>
-    <script src='<c:url value="/resource/js/bootstrap.4.min.js" />'></script>
-    <script src='<c:url value="/resource/js/xlsx.core.min.js" />'></script>
-    <script src='<c:url value="/resource/js/jspdf.min.js" />'></script>
-    <script src='<c:url value="/resource/js/jspdf.plugin.autotable.js" />'></script>
-    <script src='<c:url value="/resource/js/tableExport.min.js" />'></script>
+    <script src='<c:url value="/resource/js/bootstrap.min.js" />'></script>
     <script src='<c:url value="/resource/js/bootstrap-table.min.js" />'></script>
-    <script src='<c:url value="/resource/js/bootstrap-table-export.min.js" />'></script>
 
     <script src='<c:url value="/resource/js/fileinput.js" />'></script>
     <script src='<c:url value="/resource/js/fa-file-theme.js" />'></script>

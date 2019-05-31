@@ -41,6 +41,11 @@ public class Project implements Serializable {
      */
     private int visited;
 
+    /**
+     * 文件个数
+     * */
+    private int fileNum;
+
     public void init() {
         setDate(new Timestamp(System.currentTimeMillis()));
     }
@@ -91,5 +96,13 @@ public class Project implements Serializable {
 
     public void setVisited(int visited) {
         this.visited = visited;
+    }
+
+    public int getFileNum() {
+        return fileNum;
+    }
+
+    public void setFileNum(int fileNum) {
+        this.fileNum = fileNum;
     }
 }

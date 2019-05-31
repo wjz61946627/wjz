@@ -2,10 +2,9 @@ package nwsuaf.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.zhuozhengsoft.pageoffice.OpenModeType;
-import com.zhuozhengsoft.pageoffice.PageOfficeCtrl;
 import nwsuaf.model.MyFile;
 import nwsuaf.service.FileService;
+import nwsuaf.util.EnumFileType;
 import nwsuaf.util.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -38,23 +40,6 @@ public class FileController {
     public String index(Model model, int pid) {
         model.addAttribute("pid", pid);
         return "file";
-    }
-
-    @GetMapping("/world")
-    public String index(Model model, HttpServletRequest request) {
-
-        String path = request.getServletContext().getRealPath("");
-
-        PageOfficeCtrl poCtrl = new PageOfficeCtrl(request);
-        poCtrl.setServerPage(request.getContextPath() + "/poserver.zz");//设置服务页面
-        poCtrl.addCustomToolButton("保存", "Save", 1);//添加自定义保存按钮
-        poCtrl.addCustomToolButton("盖章", "AddSeal", 2);//添加自定义盖章按钮
-        poCtrl.setSaveFilePage("save");//设置处理文件保存的请求方法
-        //打开word
-        poCtrl.webOpen("/Users/wangtong/workspace/9/test.docx", OpenModeType.docReadOnly, "张三");
-        model.addAttribute("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
-
-        return "world";
     }
 
     /**
@@ -159,22 +144,35 @@ public class FileController {
     @ResponseBody
     @PostMapping("/upload")
     public String upload(@RequestParam("pid") int pid, @RequestParam("uid") int uid, @RequestParam("fileinput[]") MultipartFile fileinput, HttpServletRequest request) {
-        File fileTest = new File(Utils.absolutePath(pid, fileinput.getOriginalFilename()));
-        try {
-            if (!fileTest.exists()) {
-                if (!fileTest.getParentFile().exists()) {
-                    fileTest.getParentFile().mkdirs();
-                }
+        // 文件类型不合法
+        if (!EnumFileType.checkFileType(fileinput.getOriginalFilename())) {
+            return "error";
+        }
 
-                fileTest.createNewFile();
+        String srcFilePath = Utils.absolutePath(pid, fileinput.getOriginalFilename());
+        String pdfFilePath = Utils.absolutePath(pid, Utils.fileNameToPDF(fileinput.getOriginalFilename()));
+
+        File srcFile = new File(srcFilePath);
+
+        if (srcFile.exists()) {
+            return "error";
+        }
+
+        try {
+
+            if (!srcFile.getParentFile().exists()) {
+                srcFile.getParentFile().mkdirs();
             }
 
-            fileinput.transferTo(fileTest);
+            srcFile.createNewFile();
+
+
+            fileinput.transferTo(srcFile);
+            Utils.convertToPDF(srcFilePath, pdfFilePath);
         } catch (IOException e) {
             e.printStackTrace();
             return "error";
         }
-
 
         MyFile myFile = new MyFile();
         myFile.setFname(fileinput.getOriginalFilename());

@@ -14,7 +14,7 @@
 <body>
 
 <div class="container">
-    <form class="form-signin" method="post" id="loginForm" action="/login/welcome">
+    <form class="form-signin" method="GET" id="loginForm" action="/user/welcome">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="name" class="sr-only">Username</label>
         <input type="text" id="name" name="name" class="form-control" placeholder="Username" required autofocus>

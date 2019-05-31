@@ -47,9 +47,9 @@ public class UtilConfig {
     public static final String SECURITY;
 
     /**
-     * token有效期
+     * session有效期
      */
-    public static final int VALIDITY;
+    public static final int SESSION_TIMEOUT;
 
     public static final int PASSWORD_LEFT = 6;
     public static final int PASSWORD_RIGHT = 20;
@@ -69,7 +69,7 @@ public class UtilConfig {
         }
 
         SECURITY = prop.getProperty("security");
-        VALIDITY = Integer.parseInt(prop.getProperty("user.token.timeout"));
+        SESSION_TIMEOUT = Integer.parseInt(prop.getProperty("user.session.timeout"));
 
         FILE_SAVE_PATH = prop.getProperty("fileSavePath");
 

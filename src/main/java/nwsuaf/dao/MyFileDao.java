@@ -38,4 +38,6 @@ public interface MyFileDao {
      * 读取一个文件
      */
     public MyFile readByFidPid(MyFile myFile);
+
+    public int countByPid(int pid);
 }

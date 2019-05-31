@@ -120,10 +120,8 @@ function initTable() {
         method: 'get',
         url: '/user/findAll',
         striped: true, // 是否显示行间隔色
-        showExport: true,
-        exportDataType: "all",
-        exportTypes: ['excel', 'pdf'],
         pagination: false,
+        toolbar:"#toolbarU",
         columns: [
             {
                 field: 'uid',
@@ -157,11 +155,7 @@ function initTable() {
         ]
     });
 
-    var exportTool = $('.fixed-table-toolbar').find('.export');
-    exportTool.before(addTool());
-    exportTool.find('.dropdown-toggle').attr('title', "导出数据");
-
-
+     $('.bs-bars').removeClass("float-left");
 }
 
 function refreshTable() {
@@ -377,10 +371,8 @@ function initGroupTable() {
     $('#gTable').bootstrapTable({
         url: '/group/findAll',
         striped: true, // 是否显示行间隔色
-        showExport: true,
-        exportDataType: "all",
-        exportTypes: ['excel', 'pdf'],
         pagination: false,
+        toolbar:"#toolbarG",
         columns: [
             {
                 field: 'gid',
@@ -410,10 +402,7 @@ function initGroupTable() {
         ]
     });
 
-
-    var exportTool = $('.fixed-table-toolbar').find('.export');
-    exportTool.before(gTabTool());
-    exportTool.find('.dropdown-toggle').attr('title', "导出数据");
+    $('.bs-bars').removeClass("float-left");
 }
 
 var gUnselectEvents = {
@@ -601,24 +590,11 @@ function updateP(row) {
     modal.modal('show');
 }
 
-function pToolDIV() {
-    return [
-        '<button class="btn btn-secondary" type="button" name="refresh" aria-label="Refresh" title="刷新" onclick="refreshPTable()">',
-        '<i class="fa fa-refresh" aria-hidden="true"></i>',
-        '</button>',
-        '<button class="btn btn-secondary" type="button" name="add" aria-label="add" title="新增" data-toggle="modal" onclick="addProject()">',
-        '<i class="fa fa-plus-square"></i>',
-        '</button>'
-    ].join('');
-}
-
 function initPTable() {
     var option = {
         url: '/project/findAll',
         striped: true, // 是否显示行间隔色
-        showExport: true,
-        exportDataType: "all",
-        exportTypes: ['excel', 'pdf'],
+        toolbar:"#toolbarP",
         pagination: false,
         columns: [
             {
@@ -656,9 +632,7 @@ function initPTable() {
     $('#pTable').bootstrapTable('destroy');
     $('#pTable').bootstrapTable(option);
 
-    var exportTool = $('.fixed-table-toolbar').find('.export');
-    exportTool.before(pToolDIV());
-    exportTool.find('.dropdown-toggle').attr('title', "导出数据");
+    $('.bs-bars').removeClass("float-left");
 }
 
 var pAccessEvent = {

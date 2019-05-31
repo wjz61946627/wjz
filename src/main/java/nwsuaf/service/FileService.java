@@ -35,4 +35,6 @@ public interface FileService {
      * 读取一个文件
      */
     public MyFile readByFidPid(MyFile myFile);
+
+    public int countByPid(int pid);
 }

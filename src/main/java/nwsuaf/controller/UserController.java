@@ -2,10 +2,16 @@ package nwsuaf.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import nwsuaf.model.Project;
 import nwsuaf.model.User;
+import nwsuaf.service.FileService;
+import nwsuaf.service.ProjectService;
 import nwsuaf.service.UserService;
+import nwsuaf.util.MathUtils;
+import nwsuaf.util.UtilConfig;
 import nwsuaf.util.Utils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +32,20 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private ProjectService projectService;
+
+    @Resource
+    private FileService fileService;
+
+    /**
+     * 请求管理员页面
+     */
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
 
 
     /**
@@ -90,5 +110,46 @@ public class UserController {
         }
 
         return result.toString();
+    }
+
+    @ResponseBody
+    @PostMapping("/sign")
+    public String signIn(User user, HttpSession session) {
+        user.setPassword(Utils.securityMD5(user.getPassword()));
+        user = userService.loginByNamePass(user);
+
+
+        JsonObject result = new JsonObject();
+
+        if (null == user) {
+            result.addProperty("result", "false");
+            result.addProperty("msg", "用户名或密码不正确");
+            return result.toString();
+        }
+
+        session.setAttribute("user", user);
+        session.setMaxInactiveInterval(UtilConfig.SESSION_TIMEOUT);
+
+        result.addProperty("result", "true");
+        return result.toString();
+    }
+
+
+    @GetMapping("/welcome")
+    public String welcome(Model model, HttpSession session) {
+        Object user = session.getAttribute("user");
+        if (user == null || !(user instanceof User)) {
+            return "error";
+        }
+
+        List<Project> projects = projectService.findAll();
+
+        for (Project project : projects) {
+            project.setFileNum(fileService.countByPid(project.getPid()));
+        }
+
+        model.addAttribute("projects", projects);
+
+        return "welcome";
     }
 }

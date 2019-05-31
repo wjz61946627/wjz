@@ -32,6 +32,11 @@ public class Utils {
     private static final String CONNECT = "&";
 
     /**
+     * pdf文件后缀
+     */
+    public static final String PDF_SUFFIX = ".pdf";
+
+    /**
      * 支持 127.0.0.1 and 127.0.0.1/12
      */
     private static final String IP_PATTER = "";
@@ -147,5 +152,22 @@ public class Utils {
         result.append(File.separator);
         result.append(fileName);
         return result.toString();
+    }
+
+    /**
+     * 带后缀名带文件名转化成pdf文件名
+     */
+    public static String fileNameToPDF(String fileName) {
+        return fileName.replace(".", "_") + Utils.PDF_SUFFIX;
+    }
+
+    public static boolean convertToPDF(String srcPath, String targetPath) {
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(fileNameToPDF("aaa.xls"));
+        System.out.println(EnumFileType.EXCEL.isMy("aaa.xls"));
     }
 }

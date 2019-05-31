@@ -1,4 +1,4 @@
-.leftNav{
+.leftNav {
     margin-top: 10px;
     margin-left: 10px;
     float: left;
@@ -6,14 +6,18 @@
     height: 100%;
 }
 
-.rightContent{
+.rightContent {
     float: left;
     width: 70%;
     height: 100%;
     margin-right: 10px;
 }
 
-.content{
+.nav-item a {
+    color: black;
+}
+
+.content {
     margin-top: 50px;
     width: 100%;
     height: 100%;

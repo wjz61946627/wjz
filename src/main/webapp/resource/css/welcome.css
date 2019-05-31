@@ -1,5 +1,29 @@
 /*首页样式*/
 
-.project{
+body{
+    background-color: #f8f9fa!important;
+}
+
+.project {
     margin-bottom: 30px;
+}
+
+.card-title a:link {
+    text-decoration: none;
+    color: black;
+}
+
+.card-title a:active {
+    text-decoration: none;
+    color: black;
+}
+
+.card-title a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.card-title a:visited {
+    text-decoration: none;
+    color: black;
 }

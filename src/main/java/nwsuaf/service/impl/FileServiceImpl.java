@@ -54,4 +54,8 @@ public class FileServiceImpl implements FileService {
     public MyFile readByFidPid(MyFile myFile) {
         return fileDao.readByFidPid(myFile);
     }
+
+    public int countByPid(int pid) {
+        return fileDao.countByPid(pid);
+    }
 }
