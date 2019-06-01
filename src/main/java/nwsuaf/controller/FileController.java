@@ -55,7 +55,6 @@ public class FileController {
         MyFile file = fileService.readByFid(fid);
         String fileName = file.getFname();
         fileName = Utils.fileNameToPDF(fileName);
-        System.out.println(fileName);
         return readFile(Utils.absolutePath(9, fileName), fileName);
     }
 
@@ -112,14 +111,22 @@ public class FileController {
     @PostMapping("/deleteByPidFid")
     public String deleteByPidFid(MyFile myFile) {
         int success = fileService.deleteByPidFid(myFile);
-        if (success > 0) {
-            File fileTest = new File(Utils.absolutePath(myFile.getPid(), myFile.getFname()));
-            if (fileTest.exists()) {
-                fileTest.delete();
-            }
-        }
 
         JsonObject result = new JsonObject();
+        if (success < 1) {
+            result.addProperty(Utils.RESULT, Utils.FALSE);
+            return result.toString();
+        }
+        File fileTest = new File(Utils.absolutePath(myFile.getPid(), myFile.getFname()));
+        if (fileTest.exists()) {
+            fileTest.delete();
+        }
+
+        File pdf = new File(Utils.absolutePath(myFile.getPid(), Utils.fileNameToPDF(myFile.getFname())));
+        if (pdf.exists()) {
+            pdf.delete();
+        }
+
         result.addProperty(Utils.RESULT, Utils.TRUE);
         return result.toString();
     }
