@@ -158,12 +158,22 @@ public class Utils {
      * 带后缀名带文件名转化成pdf文件名
      */
     public static String fileNameToPDF(String fileName) {
+        if (EnumFileType.PDF.isMy(fileName) || EnumFileType.CAD.isMy(fileName)) {
+            return fileName;
+        }
         return fileName.replace(".", "_") + Utils.PDF_SUFFIX;
     }
 
     public static boolean convertToPDF(String srcPath, String targetPath) {
+        if (EnumFileType.WORLD.isMy(srcPath)) {
+            return PDFUtils.doc2pdf(srcPath, targetPath);
+        }
 
-        return true;
+        if (EnumFileType.EXCEL.isMy(srcPath)) {
+            return PDFUtils.excel2pdf(srcPath, targetPath);
+        }
+
+        return false;
     }
 
     public static void main(String[] args) {

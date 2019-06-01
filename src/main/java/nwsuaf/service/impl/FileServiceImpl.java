@@ -58,4 +58,11 @@ public class FileServiceImpl implements FileService {
     public int countByPid(int pid) {
         return fileDao.countByPid(pid);
     }
+
+    /**
+     * 读取一个文件
+     */
+    public MyFile readByFid(int fid) {
+        return fileDao.readByFid(fid);
+    }
 }

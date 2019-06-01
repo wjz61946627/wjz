@@ -133,14 +133,14 @@ function fNameDIV(value, row, index) {
     ].join('&');
 
     return [
-        '<a class="read" href="javascript:void(0)" title="浏览">',
-        '<i class="fa fa-eye"></i>',
-        '</a>  ',
-        '<a class="fname" href="/file/download?',
+        '<a class="fname fa fa-download" href="/file/download?',
         param,
         '" title="下载">',
-        row.fname,
-        '</a>  '
+        '</a>  ',
+        '<a class="read" href="/file/show?fid=',
+        row.fid,
+        '" title="浏览">',
+        '</a>  ',
     ].join('');
 }
 

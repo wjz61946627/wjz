@@ -21,10 +21,17 @@
         where pid = #{pid} and fid = #{fid}
     </select>
 
+
     <select id="countByPid" resultType="int">
         select count(*)
         from myfile
         where pid = #{pid}
+    </select>
+
+    <select id="readByFid" resultType="int">
+        select fname
+        from myfile
+        where fid = #{fid}
     </select>
 
     <insert id="insert" parameterType="nwsuaf.model.MyFile">

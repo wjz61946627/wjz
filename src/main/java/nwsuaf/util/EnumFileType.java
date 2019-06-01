@@ -20,6 +20,11 @@ public enum EnumFileType {
     EXCEL(".xlsx", ".xls"),
 
     /**
+     * pdf
+     */
+    PDF(".pdf"),
+
+    /**
      * cad图
      */
     CAD(".dwg")

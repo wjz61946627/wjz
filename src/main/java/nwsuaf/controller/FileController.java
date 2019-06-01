@@ -42,6 +42,41 @@ public class FileController {
         return "file";
     }
 
+    @GetMapping("/show")
+    public String show() {
+        return "views";
+    }
+
+    /**
+     * 读取一个文件
+     */
+    @GetMapping("/showpdf")
+    public ResponseEntity<byte[]> showpdf(int fid) {
+        MyFile file = fileService.readByFid(fid);
+        String fileName = file.getFname();
+        fileName = Utils.fileNameToPDF(fileName);
+        return readFile(Utils.absolutePath(9, fileName), fileName);
+    }
+
+    private ResponseEntity<byte[]> readFile(String filePath, String fileName) {
+        byte[] body = null;
+        try {
+            InputStream reader = new FileInputStream(filePath);
+            body = new byte[reader.available()];
+            reader.read(body);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 防止中文乱码
+        fileName = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+
+        HttpHeaders headers = new HttpHeaders();//设置响应头
+        headers.add("Content-Disposition", "attachment;filename=" + fileName);
+        return new ResponseEntity<byte[]>(body, headers, HttpStatus.OK);
+    }
+
+
     /**
      * 查询本项目下所有文件
      */
@@ -63,25 +98,10 @@ public class FileController {
     @GetMapping("/download")
     public ResponseEntity<byte[]> download(MyFile myFile) {
         myFile = fileService.readByFidPid(myFile);
-
-        byte[] body = null;
-        try {
-            InputStream reader = new FileInputStream(Utils.absolutePath(myFile.getPid(), myFile.getFname()));
-            body = new byte[reader.available()];
-            reader.read(body);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (myFile == null) {
+            return null;
         }
-
-        // 防止中文乱码
-        String fileName = myFile.getFname();
-        fileName = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
-
-        HttpHeaders headers = new HttpHeaders();//设置响应头
-        headers.add("Content-Disposition", "attachment;filename=" + fileName);
-
-
-        return new ResponseEntity<byte[]>(body, headers, HttpStatus.OK);
+        return readFile(Utils.absolutePath(myFile.getPid(), myFile.getFname()), myFile.getFname());
     }
 
     /**
