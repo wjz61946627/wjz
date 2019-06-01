@@ -153,9 +153,7 @@ function initFileTable(pid) {
     var option = {
         url: '/file/findByPid?pid=' + pid,
         striped: true, // 是否显示行间隔色
-        showExport: true,
-        exportDataType: "all",
-        exportTypes: ['excel', 'pdf'],
+        toolbar:"#toolbarF",
         pagination: false,
         columns: [
             {
@@ -196,9 +194,11 @@ function initFileTable(pid) {
     filetable.bootstrapTable('destroy');
     filetable.bootstrapTable(option);
 
-    var exportTool = $('.fixed-table-toolbar').find('.export');
-    exportTool.before(fToolDIV());
-    exportTool.find('.dropdown-toggle').attr('title', "导出数据");
+    $('.bs-bars').removeClass("float-left");
+
+    // var exportTool = $('.fixed-table-toolbar').find('.export');
+    // exportTool.before(fToolDIV());
+    // exportTool.find('.dropdown-toggle').attr('title', "导出数据");
 }
 
 

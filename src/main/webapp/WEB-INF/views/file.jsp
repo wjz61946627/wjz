@@ -36,6 +36,17 @@
 <label id="uid" class="hidden" data-uid="${sessionScope.user.uid}"></label>
 
 <div class="content">
+    <div id="toolbarF" class="columns columns-right btn-group float-right">
+        <button class="btn btn-secondary" type="button" name="refresh" aria-label="Refresh" title="刷新"
+                onclick="refreshFTable()">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+        </button>
+
+        <button class="btn btn-secondary" type="button" name="add" aria-label="add" title="新增" data-toggle="modal"
+                onclick="showUpload()">
+            <i class="fa fa-plus-square"></i>
+        </button>
+    </div>
     <table id="fileTable" class="table table-hover"></table>
 </div>
 
