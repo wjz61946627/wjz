@@ -140,6 +140,7 @@ function fNameDIV(value, row, index) {
         '<a class="read" href="/file/show?fid=',
         row.fid,
         '" title="浏览">',
+        row.fname,
         '</a>  ',
     ].join('');
 }
@@ -153,7 +154,7 @@ function initFileTable(pid) {
     var option = {
         url: '/file/findByPid?pid=' + pid,
         striped: true, // 是否显示行间隔色
-        toolbar:"#toolbarF",
+        toolbar: "#toolbarF",
         pagination: false,
         columns: [
             {

@@ -55,6 +55,7 @@ public class FileController {
         MyFile file = fileService.readByFid(fid);
         String fileName = file.getFname();
         fileName = Utils.fileNameToPDF(fileName);
+        System.out.println(fileName);
         return readFile(Utils.absolutePath(9, fileName), fileName);
     }
 

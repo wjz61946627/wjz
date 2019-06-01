@@ -28,7 +28,7 @@
         where pid = #{pid}
     </select>
 
-    <select id="readByFid" resultType="int">
+    <select id="readByFid" resultType="nwsuaf.model.MyFile">
         select fname
         from myfile
         where fid = #{fid}
