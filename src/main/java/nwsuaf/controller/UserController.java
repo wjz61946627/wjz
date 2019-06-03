@@ -7,7 +7,6 @@ import nwsuaf.model.User;
 import nwsuaf.service.FileService;
 import nwsuaf.service.ProjectService;
 import nwsuaf.service.UserService;
-import nwsuaf.util.MathUtils;
 import nwsuaf.util.UtilConfig;
 import nwsuaf.util.Utils;
 import org.springframework.stereotype.Controller;
@@ -52,7 +51,7 @@ public class UserController {
      * 创建一个账号
      */
     @ResponseBody
-    @PostMapping(value = "/addUser", produces = "application/json;charset=utf-8")
+    @PostMapping("/addUser")
     public String addUser(User user, HttpSession session) {
         JsonObject result = new JsonObject();
 
@@ -139,7 +138,7 @@ public class UserController {
     public String welcome(Model model, HttpSession session) {
         Object user = session.getAttribute("user");
         if (user == null || !(user instanceof User)) {
-            return "error";
+            return "/WEB-INF/error.jsp";
         }
 
         List<Project> projects = projectService.findAll();

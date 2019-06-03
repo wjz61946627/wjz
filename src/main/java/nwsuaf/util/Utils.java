@@ -39,7 +39,7 @@ public class Utils {
     /**
      * 支持 127.0.0.1 and 127.0.0.1/12
      */
-    private static final String IP_PATTER = "";
+    private static final String IP_PATTER = "([0-9]{1,3}\\.){3}[0-9]{1,3}(/[0-9]{1,2})*";
 
     public static boolean isIp(String ip) {
         return ip.matches(IP_PATTER);
@@ -49,6 +49,10 @@ public class Utils {
      * ip 在sets集合中
      */
     public static boolean ipMatchSet(String ip, Set<String> sets) {
+        if (!ip.matches(IP_PATTER)) {
+            return false;
+        }
+
         for (String network : sets) {
             if (ipEqual(ip, network)) {
                 return true;
@@ -61,8 +65,19 @@ public class Utils {
     /**
      * ip 在network网段中
      */
-    public static boolean ipEqual(String ip, String network) {
-        return false;
+    public static boolean ipEqual(String ip, String cidr) {
+        String[] ips = ip.split("\\.");
+        int ipAddr = (Integer.parseInt(ips[0]) << 24) | (Integer.parseInt(ips[1]) << 16) | (Integer.parseInt(ips[2]) << 8) | Integer.parseInt(ips[3]);
+        int type = 32;
+        if (cidr.indexOf("/") >= 0) {
+            type = Integer.parseInt(cidr.replaceAll(".*/", ""));
+        }
+        int mask = 0xFFFFFFFF << (32 - type);
+        String cidrIp = cidr.replaceAll("/.*", "");
+        String[] cidrIps = cidrIp.split("\\.");
+        int cidrIpAddr = (Integer.parseInt(cidrIps[0]) << 24) | (Integer.parseInt(cidrIps[1]) << 16) | (Integer.parseInt(cidrIps[2]) << 8) | Integer.parseInt(cidrIps[3]);
+
+        return (ipAddr & mask) == (cidrIpAddr & mask);
     }
 
     /**

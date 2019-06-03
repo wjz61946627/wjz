@@ -47,11 +47,11 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>sqlfilter</filter-name>
-        <filter-class>nwsuaf.filter.SQLFilter</filter-class>
+        <filter-name>myfilter</filter-name>
+        <filter-class>nwsuaf.filter.MyFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>sqlfilter</filter-name>
+        <filter-name>myfilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

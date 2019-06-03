@@ -1,6 +1,8 @@
 package nwsuaf.util;
 
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -73,5 +75,12 @@ public class UtilConfig {
 
         FILE_SAVE_PATH = prop.getProperty("fileSavePath");
 
+        for (int i = 0; i < 100; i++) {
+            String ip = prop.getProperty("check.ip" + i);
+            if (StringUtils.isBlank(ip)) {
+                continue;
+            }
+            IP_BLACK_SET.add(ip.trim());
+        }
     }
 }
