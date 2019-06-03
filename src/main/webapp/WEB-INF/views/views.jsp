@@ -15,9 +15,9 @@
     <!-- This snippet is used in production (included from viewer.html) -->
     <link rel="resource" type="application/l10n" href="<c:url value="/resource/locale/locale.properties" />">
     <script src='<c:url value="/resource/js/jquery-3.3.1.min.js" />'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.js"></script>
+    <%--<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.js"></script>--%>
 
-    <%--<script src="<c:url value="/resource/js/pdf.worker.js" />"></script>--%>
+    <script src="<c:url value="/resource/js/pdf.js" />"></script>
     <script src="<c:url value="/resource/js/viewer.js" />"></script>
 
 </head>
