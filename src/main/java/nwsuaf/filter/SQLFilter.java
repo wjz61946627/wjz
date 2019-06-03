@@ -1,38 +1,42 @@
 package nwsuaf.filter;
 
 
-import org.apache.commons.text.StringEscapeUtils;
+import nwsuaf.util.Utils;
+import org.springframework.web.filter.GenericFilterBean;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * @auther LazyMan
  * @date 2019-03-16
  * @describe 过滤脚本字符
  */
-public class SQLFilter implements Filter {
+public class SQLFilter extends GenericFilterBean {
 
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        // 过滤所有字符类参数
-        Enumeration<String> names = servletRequest.getAttributeNames();
-        while (names.hasMoreElements()) {
-            String name = names.nextElement();
-            Object value = servletRequest.getAttribute(name);
-            if (value instanceof String) {
-                value = convertString(String.valueOf(value));
-                servletRequest.setAttribute(name, value);
+        for (String[] params : servletRequest.getParameterMap().values()) {
+            for (String param : params) {
+                if (checkError(param)) {
+                    return;
+                }
             }
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    private String convertString(String param) {
-        String result = param;
+    private boolean checkError(String param) {
+        if (param.contains("=")) {
+            return true;
+        }
 
-        result = result.replace("'","");
-        return result;
+        return false;
     }
 }

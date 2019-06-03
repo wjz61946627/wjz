@@ -3,6 +3,7 @@ package nwsuaf.filter;
 
 import nwsuaf.util.UtilConfig;
 import nwsuaf.util.Utils;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +18,11 @@ import java.util.Set;
  * @date 2019-03-16
  * @describe 过滤黑名单ip
  */
-public class IPFilter implements Filter {
+public class IPFilter extends GenericFilterBean {
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        for(String ip : clientsIp(servletRequest)){
-            if(Utils.ipMatchSet(ip, UtilConfig.IP_BLACK_SET)){
+        for (String ip : clientsIp(servletRequest)) {
+            if (Utils.ipMatchSet(ip, UtilConfig.IP_BLACK_SET)) {
                 ((HttpServletResponse) servletResponse).sendRedirect("/forbid/ip");
             }
         }
@@ -39,17 +40,17 @@ public class IPFilter implements Filter {
         }
 
         ip = request.getHeader("Proxy-Client-IP");
-        if(ip != null){
+        if (ip != null) {
             result.add(ip);
         }
 
         ip = request.getHeader("WL-Proxy-Client-IP");
-        if(ip != null){
+        if (ip != null) {
             result.add(ip);
         }
 
         ip = request.getRemoteAddr();
-        if(ip != null){
+        if (ip != null) {
             result.add(ip);
         }
 
