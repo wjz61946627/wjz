@@ -575,7 +575,7 @@ function addProject() {
             type: "POST",
             data: $("#pInfo").serialize(),
             error: function (msg) {
-
+                alert(msg);
             },
             success: function (msg, stat, xhr) {
                 modal.modal('hide');
