@@ -1,6 +1,5 @@
 package nwsuaf.filter;
 
-import nwsuaf.model.User;
 import nwsuaf.util.UtilConfig;
 import nwsuaf.util.Utils;
 import org.apache.commons.lang3.StringUtils;
