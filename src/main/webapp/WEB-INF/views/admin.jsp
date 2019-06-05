@@ -135,16 +135,19 @@
 
             <div class="modal-body">
 
-                <div class="input-group mb-3">
-                    <label class="col-sm-2 control-label">ID</label>
-
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" readonly="readonly" id="uid" name="uid" value=""
-                               placeholder="自动生成">
-                    </div>
-                </div>
 
                 <form class="form-horizontal" role="form" id="userInfo">
+
+                    <div class="input-group mb-3">
+                        <label class="col-sm-2 control-label">ID</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" readonly="readonly" id="uid" name="uid" value="0"
+                                   placeholder="自动生成">
+                        </div>
+                    </div>
+
+
                     <div class="input-group mb-3">
                         <label class="col-sm-2 control-label">名称</label>
                         <div class="col-sm-9">

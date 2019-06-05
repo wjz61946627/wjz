@@ -89,6 +89,9 @@ window.operateEvents = {
             var submit = $('#userModelSubmit');
             submit.text("修改");
 
+            submit.on('click', null, row, updateUser);
+
+            $('#userModal').find('#uid').val(row["uid"]);
             $('#userModal').find('#name').val(row["name"]);
             $('#userModal').find('#email').val(row["email"]);
         });
@@ -96,11 +99,47 @@ window.operateEvents = {
         $('#userModal').modal('show');
     },
     'click .remove': function (e, value, row, index) {
-        $('#mytab').bootstrapTable('remove', {
-            field: 'id',
-            values: [row.id]
-        })
+
+        $.ajax({
+            url: '/user/deleteByUid',
+            type: "POST",
+            data: "uid=" + row["uid"],
+            error: function (msg) {
+                alert(msg);
+            },
+            success: function (msg, stat, xhr) {
+                if (msg["result"] == "false") {
+                    alert(msg["msg"]);
+                } else {
+                    $('#userTab').bootstrapTable('remove', {
+                        field: 'uid',
+                        values: [row.uid]
+                    })
+                }
+            }
+        });
     }
+}
+
+
+function updateUser() {
+    $.ajax({
+        url: '/user/updateByUid',
+        type: "POST",
+        data: $("#userInfo").serialize(),
+        error: function (msg) {
+            alert(msg);
+        },
+        success: function (msg, stat, xhr) {
+            if (msg["result"] == "false") {
+                alert(msg["msg"]);
+            } else {
+                var modal = $('#userModal');
+                modal.modal('hide');
+                refreshTable();
+            }
+        }
+    });
 }
 
 function addTool() {
@@ -121,7 +160,7 @@ function initTable() {
         url: '/user/findAll',
         striped: true, // 是否显示行间隔色
         pagination: false,
-        toolbar:"#toolbarU",
+        toolbar: "#toolbarU",
         columns: [
             {
                 field: 'uid',
@@ -155,7 +194,7 @@ function initTable() {
         ]
     });
 
-     $('.bs-bars').removeClass("float-left");
+    $('.bs-bars').removeClass("float-left");
 }
 
 function refreshTable() {
@@ -372,7 +411,7 @@ function initGroupTable() {
         url: '/group/findAll',
         striped: true, // 是否显示行间隔色
         pagination: false,
-        toolbar:"#toolbarG",
+        toolbar: "#toolbarG",
         columns: [
             {
                 field: 'gid',
@@ -594,7 +633,7 @@ function initPTable() {
     var option = {
         url: '/project/findAll',
         striped: true, // 是否显示行间隔色
-        toolbar:"#toolbarP",
+        toolbar: "#toolbarP",
         pagination: false,
         columns: [
             {
