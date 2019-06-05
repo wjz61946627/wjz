@@ -135,12 +135,7 @@ public class UserController {
 
 
     @GetMapping("/welcome")
-    public String welcome(Model model, HttpSession session) {
-        Object user = session.getAttribute("user");
-        if (user == null || !(user instanceof User)) {
-            return "/WEB-INF/error.jsp";
-        }
-
+    public String welcome(Model model) {
         List<Project> projects = projectService.findAll();
 
         for (Project project : projects) {
