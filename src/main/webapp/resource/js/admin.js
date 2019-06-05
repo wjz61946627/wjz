@@ -142,17 +142,6 @@ function updateUser() {
     });
 }
 
-function addTool() {
-    return [
-        '<button class="btn btn-secondary" type="button" name="refresh" aria-label="Refresh" title="刷新" onclick="refreshTable()">',
-        '<i class="fa fa-refresh" aria-hidden="true"></i>',
-        '</button>',
-        '<button class="btn btn-secondary" type="button" name="add" aria-label="add" title="新增" data-toggle="modal" onclick="addUserModal()">',
-        '<i class="fa fa-plus-square"></i>',
-        '</button>'
-    ].join('');
-}
-
 function initTable() {
     $('#userTab').bootstrapTable('destroy');
     $('#userTab').bootstrapTable({
@@ -226,10 +215,16 @@ function updateG() {
         type: "POST",
         data: $("#gInfo").serialize(),
         error: function (msg) {
-            console.log(msg);
+            alert(msg);
         },
         success: function (msg, stat, xhr) {
-            console.log(msg);
+            if (msg["result"] == "false") {
+                alert(msg);
+            } else {
+                var modal = $('#gModal');
+                modal.modal('hide');
+                refreshGTable();
+            }
         }
     });
 }
@@ -258,12 +253,12 @@ var gOperateEvents = {
             method: 'GET',
             url: '/group/deleteByGid',
             data: 'gid=' + row.gid,
-            error: function () {
-                showWarning("请求失败");
+            error: function (msg) {
+                alert(msg);
             },
             success: function (msg) {
                 if (msg["result"] === "false") {
-                    showWarning(msg["msg"]);
+                    alert("msg");
                 } else {
                     $('#gTable').bootstrapTable('remove', {
                         field: 'gid',
@@ -300,12 +295,12 @@ var eventDelMember = {
         $.ajax({
             url: '/group/delMember',
             data: param,
-            error: function () {
-                showWarning("请求失败");
+            error: function (msg) {
+                alert(msg);
             },
             success: function (msg) {
                 if (msg["result"] === "false") {
-                    showWarning(msg["msg"]);
+                    alert(msg["msg"]);
                 } else {
                     $(memberTable).bootstrapTable('remove', {
                         field: 'uid',
@@ -600,22 +595,24 @@ function addProject() {
 }
 
 function updateP(row) {
+    var modal = $('#pInfoModal');
+
     $('#pInfoModalSubmit').on('click', null, null, function () {
         $.ajax({
             url: '/project/updateByPid',
             type: "POST",
             data: $("#pInfo").serialize(),
             error: function (msg) {
-
+                alert(msg);
             },
             success: function (msg, stat, xhr) {
-
+                modal.modal('hide');
                 refreshPTable();
             }
         });
     });
 
-    var modal = $('#pInfoModal');
+
     modal.on('show.bs.modal', function (e) {
         modal.find('.modal-title').text("更新项目");
         modal.find('#pid').val(row.pid);

@@ -353,11 +353,6 @@
     </div>
 </div>
 
-<%--通用警告框--%>
-<div class="alert alert-warning" role="alert">
-    操作失败
-</div>
-
 <jsp:include page="foot.jsp" flush="true"/>
 </body>
 </html>
