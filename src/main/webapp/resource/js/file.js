@@ -59,7 +59,7 @@ function showUpload() {
     var option = {
         language: 'zh', //设置语言
         uploadUrl: '/file/upload', //上传的地址
-        allowedFileExtensions: ['xlsx', 'xls', 'doc', 'docx', 'zip'],
+        allowedFileExtensions: ['xlsx', 'xls', 'doc', 'docx', 'dwg', 'pdf'],
         showUpload: true, //是否显示上传按钮
         showCaption: true,//是否显示标题
         browseClass: "btn btn-primary", //按钮样式
