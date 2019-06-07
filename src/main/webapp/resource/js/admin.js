@@ -63,12 +63,12 @@ function addUser(param) {
             } else {
                 $("#loginForm").submit();
             }
+
+            var modal = $('#userModal');
+            modal.modal('hide');
+            refreshTable();
         }
     });
-
-    var modal = $('#userModal');
-    modal.modal('hide');
-    refreshTable();
 }
 
 function operateFormatter(value, row, index) {
@@ -736,7 +736,7 @@ function initPAccessTable(row) {
             },
             {
                 field: 'fread',
-                title: '文件-读取',
+                title: '文件-删除',
                 align: 'center',
                 events: pAccessEvent,
                 formatter: function (value, row, index) {
@@ -779,7 +779,7 @@ function pAccess(visited) {
         type: "GET",
         data: param,
         error: function (msg) {
-            console.log(msg);
+            alert(msg);
         },
         success: function (msg, stat, xhr) {
 
