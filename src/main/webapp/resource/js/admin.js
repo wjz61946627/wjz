@@ -46,6 +46,12 @@ function addUserModal(modal) {
 }
 
 function addUser(param) {
+    var password = $("#password").val();
+    var repeate = $("#password-repreat").val();
+    if (password != repeate) {
+        alert("二次确认密码有误");
+        return;
+    }
 
     $.ajax({
         url: '/user/addUser',
