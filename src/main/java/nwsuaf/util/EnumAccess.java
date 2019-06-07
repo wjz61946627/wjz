@@ -5,7 +5,7 @@ package nwsuaf.util;
  * @date 2019-05-27
  * @describe 权限枚举，小端编码
  */
-public enum Access {
+public enum EnumAccess {
     /**
      * 文件-读取'
      */
@@ -26,7 +26,11 @@ public enum Access {
 
     private int index;
 
-    private Access(int index) {
+    private EnumAccess(int index) {
         this.index = index;
+    }
+
+    public boolean has(int access) {
+        return ((access >> index) & 1) == 1;
     }
 }

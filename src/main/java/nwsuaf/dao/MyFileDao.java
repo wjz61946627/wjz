@@ -3,6 +3,7 @@ package nwsuaf.dao;
 import nwsuaf.model.MyFile;
 import nwsuaf.model.Project;
 import nwsuaf.model.ProjectToGroup;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,4 +46,6 @@ public interface MyFileDao {
      * 读取一个文件
      */
     public MyFile readByFid(int fid);
+
+    public List<ProjectToGroup> selectAccessByUid(@Param("pid") int pid, @Param("uid") int uid);
 }

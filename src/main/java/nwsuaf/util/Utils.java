@@ -194,5 +194,7 @@ public class Utils {
     public static void main(String[] args) {
         System.out.println(fileNameToPDF("aaa.xls"));
         System.out.println(EnumFileType.EXCEL.isMy("aaa.xls"));
+
+        System.out.println((5 >> 2) & 1);
     }
 }

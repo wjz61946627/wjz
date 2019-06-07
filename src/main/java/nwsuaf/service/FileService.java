@@ -1,6 +1,7 @@
 package nwsuaf.service;
 
 import nwsuaf.model.MyFile;
+import nwsuaf.model.ProjectToGroup;
 
 import java.util.List;
 
@@ -42,4 +43,6 @@ public interface FileService {
      * 读取一个文件
      */
     public MyFile readByFid(int fid);
+
+    public List<ProjectToGroup> selectAccessByUid(int pid, int uid);
 }

@@ -2,6 +2,7 @@ package nwsuaf.service.impl;
 
 import nwsuaf.dao.MyFileDao;
 import nwsuaf.model.MyFile;
+import nwsuaf.model.ProjectToGroup;
 import nwsuaf.service.FileService;
 import org.springframework.stereotype.Service;
 
@@ -64,5 +65,9 @@ public class FileServiceImpl implements FileService {
      */
     public MyFile readByFid(int fid) {
         return fileDao.readByFid(fid);
+    }
+
+    public List<ProjectToGroup> selectAccessByUid(int pid, int uid) {
+        return fileDao.selectAccessByUid(pid, uid);
     }
 }

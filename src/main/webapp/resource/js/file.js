@@ -18,6 +18,11 @@ var fOptionEvents = {
                 console.log(msg);
             },
             success: function (msg, stat, xhr) {
+                if (msg["result"] == "false") {
+                    alert(msg["msg"]);
+                    return;
+                }
+
                 $('#fileTable').bootstrapTable('remove', {
                     field: 'fid',
                     values: [row.fid]

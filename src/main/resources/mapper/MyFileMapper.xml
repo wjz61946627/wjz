@@ -21,6 +21,12 @@
         where pid = #{pid} and fid = #{fid}
     </select>
 
+    <select id="selectAccessByUid" resultType="nwsuaf.model.ProjectToGroup">
+        select project2group.access
+        from project2group,user2group
+        where project2group.pid = #{pid} and project2group.gid = user2group.gid and user2group.uid = #{uid}
+    </select>
+
 
     <select id="countByPid" resultType="int">
         select count(*)

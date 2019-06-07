@@ -3,7 +3,11 @@ package nwsuaf.controller;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import nwsuaf.model.MyFile;
+import nwsuaf.model.ProjectAccess;
+import nwsuaf.model.ProjectToGroup;
+import nwsuaf.model.User;
 import nwsuaf.service.FileService;
+import nwsuaf.util.EnumAccess;
 import nwsuaf.util.EnumFileType;
 import nwsuaf.util.Utils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -109,10 +114,26 @@ public class FileController {
      */
     @ResponseBody
     @PostMapping("/deleteByPidFid")
-    public String deleteByPidFid(MyFile myFile) {
-        int success = fileService.deleteByPidFid(myFile);
-
+    public String deleteByPidFid(MyFile myFile, HttpSession session) {
         JsonObject result = new JsonObject();
+
+        User user = (User) session.getAttribute("user");
+        if (!user.getAdmin()) {
+            List<ProjectToGroup> accessList = fileService.selectAccessByUid(myFile.getPid(), user.getUid());
+            int access = 0;
+            for (ProjectToGroup accessObject : accessList) {
+                access = access | accessObject.getAccess();
+            }
+
+            if (!EnumAccess.DELETE.has(access)) {
+                result.addProperty(Utils.RESULT, Utils.FALSE);
+                result.addProperty(Utils.MSG, "没有删除权限");
+                return result.toString();
+            }
+        }
+
+
+        int success = fileService.deleteByPidFid(myFile);
         if (success < 1) {
             result.addProperty(Utils.RESULT, Utils.FALSE);
             return result.toString();
@@ -171,7 +192,24 @@ public class FileController {
      */
     @ResponseBody
     @PostMapping("/upload")
-    public String upload(@RequestParam("pid") int pid, @RequestParam("uid") int uid, @RequestParam("fileinput[]") MultipartFile fileinput, HttpServletRequest request) {
+    public String upload(@RequestParam("pid") int pid, @RequestParam("uid") int uid, @RequestParam("fileinput[]") MultipartFile fileinput, HttpServletRequest request, HttpSession session) {
+        JsonObject result = new JsonObject();
+
+        User user = (User) session.getAttribute("user");
+        if (!user.getAdmin()) {
+            List<ProjectToGroup> accessList = fileService.selectAccessByUid(pid, user.getUid());
+            int access = 0;
+            for (ProjectToGroup accessObject : accessList) {
+                access = access | accessObject.getAccess();
+            }
+
+            if (!EnumAccess.UPLOAD.has(access)) {
+                result.addProperty(Utils.RESULT, Utils.FALSE);
+                result.addProperty(Utils.MSG, "没有上传权限");
+                return result.toString();
+            }
+        }
+
         // 文件类型不合法
         if (!EnumFileType.checkFileType(fileinput.getOriginalFilename())) {
             return "error";
@@ -210,7 +248,6 @@ public class FileController {
 
         fileService.insert(myFile);
 
-        JsonObject result = new JsonObject();
         result.addProperty(Utils.RESULT, Utils.TRUE);
         return result.toString();
     }
