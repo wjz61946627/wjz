@@ -52,16 +52,11 @@ function addUser(param) {
         type: "POST",
         data: $("#userInfo").serialize(),
         error: function (msg) {
-            console.log(msg);
-            $("#error").html(msg);
+            alert(msg);
         },
         success: function (msg, stat, xhr) {
-
             if (msg["result"] == "false") {
-                $("#errorInfo").html(msg["msg"]);
-                $("#errorInfo").show();
-            } else {
-                $("#loginForm").submit();
+                alert(msg["msg"]);
             }
 
             var modal = $('#userModal');
